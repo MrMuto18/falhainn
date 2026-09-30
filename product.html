@@ -1459,6 +1459,33 @@
             ];
         }
 
+        function getProductImages(p) {
+            if (!p) return ['kit-thumb.png', 'pruning-shears-detail.jpg', 'samurai-saw-detail.jpg', 'safety-gloves-detail.jpg', 'book-guide.jpg'];
+            const isKit = p.id === 'pack-pruning' || p.category === 'packs' || (p.name && p.name.includes('تقليم')) || p.id === '3brdF47iA5xxf9QRL2kY';
+            if (isKit) {
+                return [
+                    'kit-thumb.png',
+                    'pruning-shears-detail.jpg',
+                    'samurai-saw-detail.jpg',
+                    'safety-gloves-detail.jpg',
+                    'book-guide.jpg'
+                ];
+            }
+            if (p.images && p.images.length > 1) {
+                return p.images;
+            }
+            if (p.id === 'p20' || (p.name && p.name.includes('مقص'))) {
+                return ['pruning-shears.jpg', 'pruning-shears-detail.jpg'];
+            }
+            if (p.id === 'p22' || (p.name && p.name.includes('منشار'))) {
+                return ['samurai-saw.jpg', 'samurai-saw-detail.jpg'];
+            }
+            if (p.id === 'p23' || (p.name && p.name.includes('قفاز'))) {
+                return ['safety-gloves.jpg', 'safety-gloves-detail.jpg'];
+            }
+            return p.imageUrl ? [p.imageUrl, 'pruning-shears-detail.jpg'] : ['kit-thumb.png'];
+        }
+
         async function init() {
             const params = new URLSearchParams(window.location.search);
             const pid = params.get('id') || 'pack-pruning';
@@ -1495,7 +1522,7 @@
             const offers = getOffers(p);
             const activeOffer = offers[selectedBundleIndex] || offers[0];
 
-            const rawImages = (p.images && p.images.length) ? p.images : (p.imageUrl ? [p.imageUrl] : ['pruning-shears-detail.jpg']);
+            const rawImages = getProductImages(p);
             if (currentImageIndex >= rawImages.length) currentImageIndex = 0;
             const activeImg = rawImages[currentImageIndex];
 
@@ -1526,10 +1553,10 @@
                 `;
             }).join('');
 
-            // Thumbs HTML
+            // Thumbs HTML (Always visible for kit and multi-image products!)
             const thumbsHtml = rawImages.map((img, idx) => `
                 <div class="thumb-box ${idx === currentImageIndex ? 'active' : ''}" onclick="pickThumb(${idx})">
-                    <img src="${img}" alt="${p.name}" onerror="this.src='images/'+this.getAttribute('data-raw')" data-raw="${img}">
+                    <img src="${img}" alt="${p.name}" onerror="handleImgError(this)" data-raw="${img}">
                 </div>
             `).join('');
 
@@ -1783,20 +1810,32 @@
             render();
         };
 
+        window.handleImgError = function(img) {
+            const raw = img.getAttribute('data-raw') || img.src.split('/').pop();
+            if (!img.dataset.retried) {
+                img.dataset.retried = '1';
+                img.src = 'images/' + raw;
+            } else if (img.dataset.retried === '1') {
+                img.dataset.retried = '2';
+                img.src = raw;
+            }
+        };
+
         window.pickThumb = function(index) {
             currentImageIndex = index;
-            const rawImages = (currentProduct.images && currentProduct.images.length) ? currentProduct.images : [currentProduct.imageUrl];
+            const rawImages = getProductImages(currentProduct);
             const mainImg = document.getElementById('mainImgEl');
             if (mainImg && rawImages[index]) {
                 mainImg.style.opacity = '0.3';
                 mainImg.src = rawImages[index];
-                setTimeout(() => { mainImg.style.opacity = '1'; }, 120);
+                mainImg.setAttribute('data-raw', rawImages[index]);
+                setTimeout(() => { mainImg.style.opacity = '1'; }, 100);
             }
             document.querySelectorAll('.thumb-box').forEach((t, i) => t.classList.toggle('active', i === index));
         };
 
         window.shiftImg = function(delta) {
-            const rawImages = (currentProduct.images && currentProduct.images.length) ? currentProduct.images : [currentProduct.imageUrl];
+            const rawImages = getProductImages(currentProduct);
             currentImageIndex = (currentImageIndex + delta + rawImages.length) % rawImages.length;
             pickThumb(currentImageIndex);
         };
