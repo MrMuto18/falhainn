@@ -29,15 +29,15 @@
             --accent-gold: #f59e0b;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --bg-page: #f8faf9;
+            --bg-page: #f8fafc;
             --card-bg: #ffffff;
             --border-color: #e2e8f0;
+            --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 20px;
             --radius-xl: 26px;
-            --shadow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-            --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.07);
-            --shadow-glow: 0 0 25px rgba(45, 134, 89, 0.2);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+            --shadow-glow: 0 0 20px rgba(45, 134, 89, 0.25);
         }
 
         * {
@@ -52,104 +52,94 @@
             background-color: var(--bg-page);
             color: var(--text-main);
             line-height: 1.6;
-            padding-bottom: 90px; /* Space for mobile sticky checkout bar */
+            padding-bottom: 85px;
         }
 
-        /* Top Notification Bar */
-        .top-announce-bar {
+        /* Top Announcement Bar */
+        .top-bar {
             background: #111827;
             color: #f3f4f6;
             font-size: 13px;
             font-weight: 600;
-            padding: 8px 20px;
+            padding: 8px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .top-announce-marquee {
+        .top-marquee {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 20px;
             overflow: hidden;
             white-space: nowrap;
         }
-        .top-announce-marquee span {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .top-contact-phone {
-            color: #86efac;
-            text-decoration: none;
-            font-weight: 700;
+        .top-marquee span {
             display: inline-flex;
             align-items: center;
             gap: 6px;
         }
-        .top-contact-phone:hover {
+        .top-phone {
+            color: #86efac;
+            text-decoration: none;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .top-phone:hover {
             color: #ffffff;
         }
 
-        /* Main Navigation */
+        /* Navbar */
         nav {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            height: 72px;
-            padding: 0 32px;
+            background: #ffffff;
+            height: 70px;
+            padding: 0 28px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: sticky;
             top: 0;
-            z-index: 99;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
-        .nav-logo {
+        .nav-logo-box {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
         }
-        .nav-logo img {
-            height: 46px;
+        .nav-logo-box img {
+            height: 44px;
             width: auto;
-            object-fit: contain;
         }
-        .nav-logo-text {
-            font-size: 24px;
+        .nav-logo-title {
+            font-size: 22px;
             font-weight: 900;
             color: var(--primary-dark);
-            letter-spacing: -0.5px;
         }
-        .nav-menu-links {
+        .nav-menu {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             list-style: none;
         }
-        .nav-menu-links a {
+        .nav-menu a {
             text-decoration: none;
             color: var(--text-main);
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14.5px;
             padding: 8px 16px;
             border-radius: 10px;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
-        .nav-menu-links a:hover,
-        .nav-menu-links a.active {
+        .nav-menu a:hover,
+        .nav-menu a.active {
             background: var(--primary-soft);
             color: var(--primary-dark);
         }
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .btn-call-order {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+        .nav-call-btn {
             background: #111827;
             color: #ffffff;
             padding: 8px 18px;
@@ -157,111 +147,112 @@
             font-size: 13.5px;
             font-weight: 800;
             text-decoration: none;
-            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s;
         }
-        .btn-call-order:hover {
+        .nav-call-btn:hover {
             background: var(--primary);
             transform: translateY(-2px);
         }
 
-        /* Breadcrumbs */
-        .breadcrumb-section {
-            max-width: 1240px;
-            margin: 14px auto 0;
-            padding: 0 24px;
+        /* Container - Centered and Contained like Tresoria */
+        .site-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb-bar {
+            padding: 16px 0 12px;
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 13px;
             color: var(--text-muted);
         }
-        .breadcrumb-section a {
+        .breadcrumb-bar a {
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 600;
         }
-        .breadcrumb-section a:hover {
+        .breadcrumb-bar a:hover {
             color: var(--primary);
         }
-        .breadcrumb-section .sep {
+        .breadcrumb-bar .sep {
             color: #cbd5e1;
             font-size: 11px;
         }
-        .breadcrumb-section .active-title {
+        .breadcrumb-bar .current-crumb {
             color: var(--text-main);
             font-weight: 800;
         }
 
-        /* Product Main Wrapper */
-        .product-wrapper {
-            max-width: 1240px;
-            margin: 18px auto 40px;
-            padding: 0 20px;
-        }
-
-        /* 2-Columns Grid Layout: Gallery (Left/Right) & Product Meta + Form */
-        .product-main-grid {
+        /* Main Product 2-Column Section (Like Tresoria) */
+        .product-section-grid {
             display: grid;
-            grid-template-columns: 1fr 1.08fr;
-            gap: 40px;
+            grid-template-columns: 460px 1fr;
+            gap: 28px;
             align-items: start;
+            margin-bottom: 40px;
         }
 
-        /* Sticky Left Column: Gallery */
-        .gallery-container {
+        /* Gallery Column */
+        .gallery-wrap {
             position: sticky;
-            top: 90px;
+            top: 85px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
-        .gallery-stage {
-            position: relative;
-            width: 100%;
-            height: 480px;
+        .gallery-main-card {
             background: #ffffff;
-            border-radius: var(--radius-lg);
             border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
             overflow: hidden;
+            position: relative;
+            height: 460px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--shadow-subtle);
+            box-shadow: var(--shadow-card);
         }
-        .gallery-stage img {
+        .gallery-main-card img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            padding: 16px;
-            transition: transform 0.3s ease, opacity 0.25s ease;
+            padding: 14px;
+            transition: transform 0.3s ease;
         }
-        .gallery-stage:hover img {
-            transform: scale(1.04);
+        .gallery-main-card:hover img {
+            transform: scale(1.03);
         }
-        .gallery-badges-group {
+        .gallery-tag-group {
             position: absolute;
             top: 14px;
             right: 14px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
             z-index: 5;
         }
-        .badge-pill {
-            padding: 5px 12px;
+        .gallery-tag {
+            padding: 4px 12px;
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 800;
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
         }
-        .badge-free-delivery {
+        .tag-green {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: #ffffff;
         }
-        .badge-promo {
+        .tag-red {
             background: linear-gradient(135deg, #ef4444, #dc2626);
             color: #ffffff;
         }
@@ -269,8 +260,8 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid var(--border-color);
             border-radius: 50%;
@@ -278,164 +269,133 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.2s ease;
-            z-index: 6;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             color: #1e293b;
+            z-index: 6;
+            transition: all 0.2s;
         }
         .gallery-nav-btn:hover {
             background: #ffffff;
-            transform: translateY(-50%) scale(1.1);
             color: var(--primary);
+            transform: translateY(-50%) scale(1.08);
         }
-        .gallery-nav-prev { right: 14px; }
-        .gallery-nav-next { left: 14px; }
-        
-        .gallery-zoom-icon {
-            position: absolute;
-            bottom: 14px;
-            left: 14px;
-            width: 36px;
-            height: 36px;
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64748b;
-            font-size: 13px;
-            z-index: 5;
-            cursor: pointer;
-        }
+        .btn-prev { right: 12px; }
+        .btn-next { left: 12px; }
 
-        /* Thumbnails Strip */
         .gallery-thumbs-row {
             display: flex;
             gap: 10px;
             overflow-x: auto;
-            padding-bottom: 4px;
+            padding-bottom: 2px;
         }
-        .gallery-thumbs-row::-webkit-scrollbar {
-            height: 4px;
-        }
-        .gallery-thumbs-row::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        .thumb-item {
-            width: 80px;
-            height: 80px;
+        .thumb-box {
+            width: 76px;
+            height: 76px;
             flex-shrink: 0;
             background: #ffffff;
-            border-radius: 12px;
             border: 2px solid var(--border-color);
+            border-radius: 12px;
             overflow: hidden;
+            padding: 3px;
             cursor: pointer;
-            padding: 4px;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
-        .thumb-item img {
+        .thumb-box img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             border-radius: 8px;
         }
-        .thumb-item:hover {
+        .thumb-box:hover {
             border-color: var(--primary-light);
         }
-        .thumb-item.active {
+        .thumb-box.active {
             border-color: var(--primary-dark);
             box-shadow: 0 0 0 2px rgba(45, 134, 89, 0.25);
         }
 
-        /* Gallery Features Bar */
-        .gallery-perks-box {
+        .gallery-perks-strip {
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 14px 18px;
+            padding: 12px 14px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 8px;
             text-align: center;
         }
-        .gallery-perk-item {
+        .perk-cell {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            font-size: 11.5px;
+            gap: 3px;
+            font-size: 11px;
             font-weight: 700;
             color: #475569;
         }
-        .gallery-perk-item i {
-            font-size: 18px;
+        .perk-cell i {
+            font-size: 16px;
             color: var(--primary);
         }
 
-        /* Right Column: Details & TikTak Style COD Box */
-        .product-info-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .product-header-card {
+        /* ONE Unified Product Card (Tresoria Style) */
+        .product-unified-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             padding: 24px 26px;
-            box-shadow: var(--shadow-subtle);
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
-        .cat-sku-row {
+
+        /* Product Header */
+        .prod-meta-top {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
             gap: 8px;
         }
-        .cat-tag {
+        .prod-category-badge {
             font-size: 12px;
             font-weight: 800;
             color: var(--primary-dark);
             background: var(--primary-soft);
-            padding: 4px 12px;
+            padding: 3px 12px;
             border-radius: 50px;
         }
-        .sku-tag {
+        .prod-sku-tag {
             font-size: 12px;
             color: #94a3b8;
             font-weight: 600;
         }
-        .product-title {
-            font-size: 26px;
+        .prod-main-title {
+            font-size: 24px;
             font-weight: 900;
             color: var(--text-main);
             line-height: 1.35;
-            margin-bottom: 10px;
         }
 
-        /* Rating Row (Tresoria Style) */
-        .product-rating-row {
+        /* Stars Row */
+        .prod-stars-row {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 16px;
+            flex-wrap: wrap;
         }
-        .stars-group {
+        .stars-list {
             color: #f59e0b;
             font-size: 13px;
             display: flex;
             gap: 2px;
         }
-        .rating-count {
+        .stars-count-txt {
             font-size: 13px;
             font-weight: 700;
             color: #64748b;
         }
-        .verified-badge {
+        .guaranteed-tag {
             background: #ecfdf5;
             color: #059669;
             font-size: 11px;
@@ -448,860 +408,745 @@
         }
 
         /* Price Box */
-        .product-price-box {
+        .prod-pricing-banner {
             display: flex;
             align-items: baseline;
-            gap: 14px;
-            padding: 14px 18px;
+            gap: 12px;
+            padding: 12px 16px;
             background: #f8fafc;
-            border: 1px solid #f1f5f9;
+            border: 1px solid #edf2f7;
             border-radius: var(--radius-md);
-            margin-bottom: 16px;
             flex-wrap: wrap;
         }
-        .price-now {
-            font-size: 36px;
+        .price-current {
+            font-size: 34px;
             font-weight: 900;
             color: var(--primary-dark);
+            line-height: 1;
         }
-        .price-currency {
-            font-size: 18px;
+        .price-dt {
+            font-size: 16px;
             font-weight: 700;
             color: #475569;
-            margin-right: 4px;
         }
-        .price-was {
-            font-size: 20px;
+        .price-striked {
+            font-size: 18px;
             color: #94a3b8;
             text-decoration: line-through;
             font-weight: 600;
         }
-        .save-pill {
+        .discount-pill {
             background: #fef2f2;
             color: #dc2626;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: 50px;
             border: 1px solid #fecaca;
         }
 
-        /* Scarcity & Live Views (TikTak / Tresoria conversion triggers) */
-        .urgency-container {
+        /* Urgency and Stock Progress */
+        .urgency-box {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: 4px;
+            gap: 6px;
         }
-        .live-viewers-alert {
+        .viewers-txt {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 13px;
+            gap: 7px;
+            font-size: 12.5px;
             font-weight: 700;
             color: #334155;
         }
-        .pulsing-dot {
-            width: 9px;
-            height: 9px;
+        .live-dot {
+            width: 8px;
+            height: 8px;
             background: #22c55e;
             border-radius: 50%;
             box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
-            animation: pulse-dot 1.6s infinite;
+            animation: pulse-live 1.6s infinite;
         }
-        @keyframes pulse-dot {
+        @keyframes pulse-live {
             0% { transform: scale(0.95); opacity: 0.8; }
             50% { transform: scale(1.2); opacity: 1; }
             100% { transform: scale(0.95); opacity: 0.8; }
         }
-        .stock-progress-box {
+        .stock-progress-track {
             background: #fff7ed;
             border: 1px solid #ffedd5;
-            border-radius: 10px;
-            padding: 10px 14px;
+            border-radius: 8px;
+            padding: 8px 12px;
         }
-        .stock-text {
-            font-size: 12.5px;
+        .stock-txt-row {
+            font-size: 12px;
             font-weight: 800;
             color: #c2410c;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
-        .stock-bar-track {
-            height: 7px;
+        .stock-bar-bg {
+            height: 6px;
             background: #fed7aa;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
         }
-        .stock-bar-fill {
+        .stock-bar-bar {
             height: 100%;
             width: 82%;
             background: linear-gradient(90deg, #ea580c, #f97316);
-            border-radius: 10px;
-            animation: progress-load 1.2s ease-out;
+            border-radius: 8px;
         }
 
-        /* Pack / Bundle Selection Cards (TikTak PRO Style) */
-        .bundle-selection-card {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 20px 22px;
-            box-shadow: var(--shadow-subtle);
-        }
-        .bundle-card-title {
-            font-size: 15px;
-            font-weight: 900;
-            color: var(--text-main);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .bundle-card-title i {
-            color: var(--primary);
-        }
-        .bundle-options-list {
+        /* Offers / Bundles Selector (Compact TikTak Style) */
+        .bundles-wrap {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
         }
-        .bundle-option-item {
-            border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 14px 18px;
+        .bundles-header {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .bundle-item {
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px 14px;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: #ffffff;
         }
-        .bundle-option-item:hover {
+        .bundle-item:hover {
             border-color: var(--primary-light);
             background: #fafdfa;
         }
-        .bundle-option-item.selected {
+        .bundle-item.selected {
             border-color: var(--primary-dark);
             background: #f4faf6;
-            box-shadow: 0 4px 14px rgba(45, 134, 89, 0.12);
+            box-shadow: 0 2px 10px rgba(45, 134, 89, 0.12);
         }
-        .bundle-badge-popular {
+        .bundle-tag-popular {
             position: absolute;
-            top: -10px;
-            left: 20px;
+            top: -9px;
+            left: 16px;
             background: linear-gradient(135deg, #f59e0b, #d97706);
             color: #ffffff;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 900;
-            padding: 2px 10px;
+            padding: 1px 8px;
             border-radius: 50px;
-            box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3);
         }
-        .bundle-badge-best {
+        .bundle-tag-best {
             position: absolute;
-            top: -10px;
-            left: 20px;
+            top: -9px;
+            left: 16px;
             background: linear-gradient(135deg, #10b981, #059669);
             color: #ffffff;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 900;
-            padding: 2px 10px;
+            padding: 1px 8px;
             border-radius: 50px;
         }
-        .bundle-left-side {
+        .bundle-info-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
-        .bundle-radio {
-            width: 20px;
-            height: 20px;
+        .bundle-radio-circle {
+            width: 18px;
+            height: 18px;
             border: 2px solid #94a3b8;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
             flex-shrink: 0;
         }
-        .bundle-option-item.selected .bundle-radio {
+        .bundle-item.selected .bundle-radio-circle {
             border-color: var(--primary-dark);
         }
-        .bundle-radio::after {
+        .bundle-radio-circle::after {
             content: '';
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: var(--primary-dark);
             border-radius: 50%;
             display: none;
         }
-        .bundle-option-item.selected .bundle-radio::after {
+        .bundle-item.selected .bundle-radio-circle::after {
             display: block;
         }
-        .bundle-name-block {
-            display: flex;
-            flex-direction: column;
-        }
-        .bundle-qty-text {
-            font-size: 15px;
+        .bundle-label-title {
+            font-size: 14px;
             font-weight: 800;
             color: var(--text-main);
         }
-        .bundle-sub-tag {
-            font-size: 12px;
+        .bundle-label-sub {
+            font-size: 11.5px;
             color: var(--primary-dark);
             font-weight: 700;
         }
-        .bundle-price-block {
+        .bundle-price-right {
             text-align: left;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
         }
-        .bundle-total-price {
-            font-size: 18px;
+        .bundle-val-main {
+            font-size: 16px;
             font-weight: 900;
             color: var(--primary-dark);
         }
-        .bundle-old-price {
-            font-size: 13px;
+        .bundle-val-old {
+            font-size: 12px;
             color: #94a3b8;
             text-decoration: line-through;
         }
 
-        /* Quick Checkout Form (TikTak PRO / Tresoria Box) */
-        .quick-checkout-container {
-            background: #ffffff;
-            border: 2.5px dashed rgba(45, 134, 89, 0.45);
-            border-radius: var(--radius-xl);
-            padding: 26px 24px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-            position: relative;
-        }
-        .checkout-top-header {
+        /* Direct Quick Checkout Form Container */
+        .checkout-dashed-box {
+            background: #fafdfa;
+            border: 2px dashed rgba(45, 134, 89, 0.4);
+            border-radius: 16px;
+            padding: 18px 20px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 12px;
-            margin-bottom: 20px;
-            padding-bottom: 14px;
-            border-bottom: 1.5px solid #f1f5f9;
         }
-        .checkout-icon-wrap {
-            width: 44px;
-            height: 44px;
-            background: var(--primary-soft);
-            color: var(--primary-dark);
-            border-radius: 12px;
+        .checkout-box-title {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-        .checkout-title-box h3 {
-            font-size: 17px;
+            gap: 8px;
+            font-size: 15px;
             font-weight: 900;
             color: var(--text-main);
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 10px;
         }
-        .checkout-title-box p {
-            font-size: 12.5px;
-            color: var(--text-muted);
-            font-weight: 600;
+        .checkout-box-title i {
+            color: var(--primary);
+            font-size: 18px;
         }
 
-        .checkout-form {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-        .form-grid-2 {
+        .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
         }
-        .form-field {
+        .form-row-field {
             display: flex;
             flex-direction: column;
-            gap: 6px;
-        }
-        .form-field label {
-            font-size: 13px;
-            font-weight: 800;
-            color: #334155;
-            display: flex;
-            align-items: center;
             gap: 4px;
         }
-        .form-field label .req {
+        .form-row-field label {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #334155;
+        }
+        .form-row-field label .req {
             color: #dc2626;
         }
-        .form-input-shell {
+        .input-shell {
             position: relative;
             display: flex;
             align-items: center;
         }
-        .form-input-shell i {
+        .input-shell i {
             position: absolute;
-            right: 14px;
+            right: 12px;
             color: #94a3b8;
-            font-size: 15px;
+            font-size: 14px;
             pointer-events: none;
         }
-        .field-input,
-        .field-select {
+        .inp-control,
+        .sel-control {
             width: 100%;
-            height: 48px;
-            padding: 0 42px 0 14px;
+            height: 44px;
+            padding: 0 38px 0 12px;
             border: 1.5px solid #cbd5e1;
-            border-radius: 12px;
+            border-radius: 10px;
             font-family: 'Tajawal', sans-serif;
-            font-size: 14.5px;
+            font-size: 14px;
             color: #0f172a;
             background: #ffffff;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
             outline: none;
         }
-        .field-input:focus,
-        .field-select:focus {
+        .inp-control:focus,
+        .sel-control:focus {
             border-color: var(--primary-dark);
             box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.12);
         }
-        .field-input.has-error,
-        .field-select.has-error {
+        .inp-control.has-error,
+        .sel-control.has-error {
             border-color: #ef4444 !important;
             background: #fef2f2 !important;
         }
 
-        /* Transparent Real-Time Price Summary Box */
-        .order-summary-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 16px 18px;
-            margin: 10px 0 6px;
+        /* Order Summary Card */
+        .summary-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 14px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
-        .summary-line {
+        .sum-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 14px;
+            font-size: 13.5px;
             color: #64748b;
             font-weight: 700;
         }
-        .summary-line .sum-val {
+        .sum-row .val {
             color: #1e293b;
             font-weight: 800;
         }
-        .summary-line.total-line {
+        .sum-row.total-line {
             border-top: 1.5px dashed #cbd5e1;
-            padding-top: 12px;
-            margin-top: 4px;
-            font-size: 17px;
+            padding-top: 10px;
+            margin-top: 2px;
+            font-size: 16px;
             font-weight: 900;
             color: #0f172a;
         }
-        .summary-line.total-line .sum-val {
-            font-size: 26px;
+        .sum-row.total-line .val {
+            font-size: 24px;
             font-weight: 900;
             color: var(--primary-dark);
         }
-        .free-delivery-badge {
+        .free-ship-badge {
             background: #22c55e;
             color: #ffffff;
             font-size: 11px;
             font-weight: 900;
-            padding: 2px 10px;
+            padding: 2px 8px;
             border-radius: 50px;
         }
 
-        /* Pulsating High-Converting Buy Button */
-        .btn-order-now-direct {
+        /* Big CTA Button */
+        .btn-order-submit {
             width: 100%;
-            height: 56px;
+            height: 52px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #ffffff;
             border: none;
-            border-radius: 14px;
+            border-radius: 12px;
             font-family: 'Tajawal', sans-serif;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 900;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            box-shadow: 0 8px 24px rgba(45, 134, 89, 0.35);
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(45, 134, 89, 0.35);
             transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
         }
-        .btn-order-now-direct:hover {
+        .btn-order-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(45, 134, 89, 0.45);
-        }
-        .btn-order-now-direct:active {
-            transform: translateY(0);
-        }
-        .btn-order-now-direct::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            bottom: -50%;
-            left: -50%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
-            transform: rotate(30deg);
-            animation: shine-sweep 3.5s infinite;
-        }
-        @keyframes shine-sweep {
-            0% { transform: translateX(-100%) rotate(30deg); }
-            40% { transform: translateX(100%) rotate(30deg); }
-            100% { transform: translateX(100%) rotate(30deg); }
+            box-shadow: 0 10px 25px rgba(45, 134, 89, 0.45);
         }
 
-        /* Trust & Guarantees Bar (Directly beneath order button) */
-        .checkout-trust-grid {
+        /* Trust Badges Under Button */
+        .trust-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 14px;
-            padding-top: 16px;
-            border-top: 1px solid #f1f5f9;
+            gap: 8px;
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
         }
-        .trust-bullet {
+        .trust-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 12px;
+            gap: 6px;
+            font-size: 11.5px;
             font-weight: 700;
             color: #475569;
         }
-        .trust-bullet i {
+        .trust-item i {
             color: var(--primary);
-            font-size: 15px;
-            flex-shrink: 0;
+            font-size: 14px;
         }
 
-        /* Rich Product Description & Tabs Section */
-        .product-tabs-section {
-            margin-top: 50px;
+        /* Tabs Section (Description, Components, Reviews) */
+        .tabs-card {
             background: #ffffff;
-            border-radius: var(--radius-xl);
             border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
             box-shadow: var(--shadow-card);
             overflow: hidden;
+            margin-bottom: 50px;
         }
-        .tabs-header-nav {
+        .tabs-nav {
             display: flex;
-            align-items: center;
-            gap: 20px;
             background: #f8fafc;
-            border-bottom: 2px solid #e2e8f0;
-            padding: 0 30px;
+            border-bottom: 1.5px solid var(--border-color);
+            padding: 0 24px;
             overflow-x: auto;
         }
-        .tab-btn {
+        .tab-button {
             background: transparent;
             border: none;
-            padding: 18px 6px;
+            padding: 16px 8px;
+            margin-left: 24px;
             font-family: 'Tajawal', sans-serif;
             font-size: 15px;
             font-weight: 800;
             color: #64748b;
             cursor: pointer;
             position: relative;
-            transition: color 0.2s;
             white-space: nowrap;
         }
-        .tab-btn.active {
+        .tab-button.active {
             color: var(--primary-dark);
         }
-        .tab-btn.active::after {
+        .tab-button.active::after {
             content: '';
             position: absolute;
-            bottom: -2px;
+            bottom: -1.5px;
             right: 0;
             left: 0;
             height: 3px;
             background: var(--primary-dark);
             border-radius: 3px 3px 0 0;
         }
-        .tab-body-pane {
-            padding: 36px 30px;
+        .tab-content {
+            padding: 30px 26px;
         }
 
-        /* Description Cards & Components */
-        .kit-hero-highlight {
+        /* Kit Components Grid */
+        .kit-banner {
             background: linear-gradient(135deg, rgba(45,134,89,0.08), rgba(72,187,120,0.06));
-            border: 1.5px solid rgba(45,134,89,0.2);
-            border-radius: var(--radius-lg);
-            padding: 24px 28px;
-            margin-bottom: 34px;
+            border: 1px solid rgba(45,134,89,0.2);
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin-bottom: 26px;
         }
-        .kit-hero-title {
-            font-size: 22px;
+        .kit-banner h3 {
+            font-size: 20px;
             font-weight: 900;
             color: var(--primary-dark);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
-        .kit-hero-text {
-            font-size: 15.5px;
+        .kit-banner p {
+            font-size: 14.5px;
             color: #334155;
-            line-height: 1.85;
+            line-height: 1.8;
         }
 
-        .components-grid {
+        .kit-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 30px;
+            gap: 20px;
         }
-        .component-item-card {
+        .kit-card {
             background: #ffffff;
-            border: 1.5px solid var(--border-color);
-            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: var(--shadow-subtle);
-            transition: transform 0.25s, box-shadow 0.25s;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            transition: transform 0.2s;
         }
-        .component-item-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+        .kit-card:hover {
+            transform: translateY(-3px);
             border-color: var(--primary);
         }
-        .component-img-box {
+        .kit-card-img {
             width: 100%;
-            height: 240px;
+            height: 200px;
             background: #f8fafc;
-            position: relative;
             overflow: hidden;
+            position: relative;
         }
-        .component-img-box img {
+        .kit-card-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
         }
-        .component-item-card:hover .component-img-box img {
-            transform: scale(1.05);
-        }
-        .component-badge {
+        .kit-card-badge {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(17, 24, 39, 0.85);
-            backdrop-filter: blur(6px);
+            top: 10px;
+            right: 10px;
+            background: rgba(17,24,39,0.85);
             color: #ffffff;
             font-size: 11px;
             font-weight: 800;
-            padding: 4px 10px;
+            padding: 3px 10px;
             border-radius: 50px;
         }
-        .component-body {
-            padding: 20px;
-            flex: 1;
+        .kit-card-body {
+            padding: 16px;
             display: flex;
             flex-direction: column;
+            flex: 1;
         }
-        .component-title {
-            font-size: 18px;
+        .kit-card-title {
+            font-size: 17px;
             font-weight: 900;
             color: var(--text-main);
             margin-bottom: 4px;
         }
-        .component-sub {
-            font-size: 12.5px;
+        .kit-card-sub {
+            font-size: 12px;
             color: var(--primary-dark);
             font-weight: 700;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
-        .features-check-list {
+        .kit-card-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-top: auto;
+            gap: 6px;
+            font-size: 12.5px;
+            color: #475569;
         }
-        .features-check-list li {
+        .kit-card-list li {
             display: flex;
             align-items: flex-start;
-            gap: 8px;
-            font-size: 13px;
-            color: #475569;
-            line-height: 1.5;
+            gap: 6px;
         }
-        .features-check-list li i {
+        .kit-card-list li i {
             color: var(--primary);
-            font-size: 14px;
             margin-top: 3px;
-            flex-shrink: 0;
         }
 
-        /* Reviews Section (TikTak Style Social Proof) */
-        .reviews-summary-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-bottom: 28px;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        .reviews-score-big {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .big-score-num {
-            font-size: 46px;
-            font-weight: 900;
-            color: var(--text-main);
-            line-height: 1;
-        }
-        .reviews-cards-list {
+        /* Reviews Grid */
+        .reviews-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
         }
-        .review-box {
+        .review-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            padding: 18px 20px;
+            border-radius: 12px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
-        .review-author-row {
+        .review-top {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
-        .review-author {
-            font-size: 14px;
+        .reviewer-name {
+            font-size: 13.5px;
             font-weight: 800;
             color: var(--text-main);
         }
-        .review-date {
-            font-size: 12px;
+        .review-date-txt {
+            font-size: 11px;
             color: #94a3b8;
         }
-        .review-comment {
-            font-size: 13.5px;
+        .review-body-txt {
+            font-size: 13px;
             color: #475569;
             line-height: 1.6;
         }
 
-        /* Sticky Mobile Checkout Bar (Just like Tresoria) */
-        .sticky-mobile-order-bar {
+        /* Mobile Sticky Order Bar */
+        .sticky-order-bar {
             display: none;
             position: fixed;
             bottom: 0;
             right: 0;
             left: 0;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(14px);
-            padding: 12px 18px;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-            border-top: 1px solid rgba(0,0,0,0.06);
-            z-index: 98;
+            background: #ffffff;
+            padding: 10px 18px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
+            border-top: 1px solid var(--border-color);
+            z-index: 99;
             align-items: center;
             justify-content: space-between;
-            gap: 14px;
+            gap: 12px;
         }
-        .sticky-price-info {
+        .sticky-info {
             display: flex;
             flex-direction: column;
         }
-        .sticky-item-name {
-            font-size: 12.5px;
+        .sticky-name {
+            font-size: 12px;
             font-weight: 800;
             color: #0f172a;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 150px;
+            max-width: 140px;
         }
-        .sticky-total-price {
-            font-size: 20px;
+        .sticky-sum-price {
+            font-size: 19px;
             font-weight: 900;
             color: var(--primary-dark);
         }
-        .sticky-btn-buy {
+        .sticky-order-btn {
             flex: 1;
-            height: 48px;
+            height: 46px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #ffffff;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-family: 'Tajawal', sans-serif;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 900;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 14px rgba(45, 134, 89, 0.35);
         }
 
-        /* Floating WhatsApp Button */
-        .floating-whatsapp {
-            position: fixed;
-            bottom: 85px;
-            right: 20px;
-            width: 52px;
-            height: 52px;
-            background: #25d366;
-            color: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-            z-index: 95;
-            text-decoration: none;
-            transition: all 0.25s ease;
-        }
-        .floating-whatsapp:hover {
-            transform: scale(1.1);
-        }
-
-        /* Modal Confirmation Success */
-        .success-overlay {
+        /* Success Modal */
+        .modal-backdrop {
             position: fixed;
             inset: 0;
             background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(6px);
             z-index: 1000;
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
         }
-        .success-overlay.show {
+        .modal-backdrop.show {
             display: flex;
         }
-        .success-card {
+        .modal-box {
             background: #ffffff;
-            border-radius: 26px;
-            max-width: 500px;
+            border-radius: 22px;
+            max-width: 480px;
             width: 100%;
-            padding: 34px 28px;
+            padding: 30px 24px;
             text-align: center;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
-            animation: zoom-in-modal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
         }
-        @keyframes zoom-in-modal {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .success-icon-badge {
-            width: 76px;
-            height: 76px;
+        .modal-icon {
+            width: 68px;
+            height: 68px;
             background: #dcfce7;
             color: #16a34a;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 34px;
-            margin: 0 auto 18px;
-            box-shadow: 0 10px 25px rgba(22, 163, 74, 0.25);
+            font-size: 30px;
+            margin: 0 auto 16px;
         }
-        .success-title {
-            font-size: 24px;
+        .modal-title {
+            font-size: 22px;
             font-weight: 900;
             color: #0f172a;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
-        .success-desc {
-            font-size: 14.5px;
+        .modal-desc {
+            font-size: 14px;
             color: #475569;
-            line-height: 1.7;
-            margin-bottom: 20px;
+            line-height: 1.6;
+            margin-bottom: 18px;
         }
-        .order-summary-box {
+        .order-meta-box {
             background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
             text-align: right;
-            font-size: 13.5px;
+            font-size: 13px;
             color: #334155;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 24px;
+            gap: 6px;
+            margin-bottom: 20px;
         }
-        .order-summary-box div {
+        .order-meta-box div {
             display: flex;
             justify-content: space-between;
         }
-        .modal-buttons {
+        .modal-actions {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        .btn-whatsapp-confirm {
+        .btn-modal-wa {
             background: #25d366;
             color: #ffffff;
-            height: 48px;
-            border-radius: 12px;
+            height: 46px;
+            border-radius: 10px;
             text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
             font-weight: 800;
-            font-size: 15px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            font-size: 14.5px;
         }
-        .btn-return-shop {
+        .btn-modal-back {
             background: #f1f5f9;
             color: #334155;
             border: none;
-            height: 46px;
-            border-radius: 12px;
+            height: 44px;
+            border-radius: 10px;
             font-family: 'Tajawal', sans-serif;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13.5px;
             cursor: pointer;
         }
 
-        /* Responsive Breakpoints */
+        /* Floating WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 85px;
+            right: 18px;
+            width: 50px;
+            height: 50px;
+            background: #25d366;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+            z-index: 95;
+            text-decoration: none;
+        }
+
+        /* Responsive */
         @media (max-width: 992px) {
-            .product-main-grid {
+            .product-section-grid {
                 grid-template-columns: 1fr;
-                gap: 28px;
+                gap: 20px;
             }
-            .gallery-container {
+            .gallery-wrap {
                 position: static;
             }
-            .gallery-stage {
+            .gallery-main-card {
                 height: 380px;
             }
-            .components-grid {
+            .kit-grid {
                 grid-template-columns: 1fr;
             }
-            .reviews-cards-list {
+            .reviews-grid {
                 grid-template-columns: 1fr;
             }
-            .sticky-mobile-order-bar {
+            .sticky-order-bar {
                 display: flex;
             }
         }
@@ -1309,215 +1154,188 @@
         @media (max-width: 600px) {
             nav {
                 padding: 0 16px;
-                height: 64px;
+                height: 62px;
             }
-            .nav-menu-links {
+            .nav-menu {
                 display: none;
             }
-            .gallery-stage {
-                height: 300px;
+            .gallery-main-card {
+                height: 290px;
             }
-            .product-title {
-                font-size: 21px;
-            }
-            .price-now {
-                font-size: 30px;
-            }
-            .form-grid-2 {
+            .form-grid {
                 grid-template-columns: 1fr;
             }
-            .product-tabs-section {
-                margin-top: 30px;
+            .product-unified-card {
+                padding: 18px 16px;
             }
-            .tab-body-pane {
-                padding: 24px 16px;
+            .tab-content {
+                padding: 20px 16px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Announcement Bar -->
-    <div class="top-announce-bar">
-        <div class="top-announce-marquee">
+    <!-- Top Announcement -->
+    <div class="top-bar">
+        <div class="top-marquee">
             <span><i class="fas fa-truck-fast" style="color:#86efac;"></i> توصيل سريع 24-48 ساعة لكامل تراب الجمهورية</span>
             <span><i class="fas fa-shield-halved" style="color:#86efac;"></i> معاينة وفحص الطرد قبل الدفع</span>
             <span><i class="fas fa-coins" style="color:#86efac;"></i> الدفع نقدًا عند الاستلام</span>
         </div>
-        <a href="tel:20244122" class="top-contact-phone">
+        <a href="tel:20244122" class="top-phone">
             <i class="fas fa-phone-volume"></i> 20 244 122
         </a>
     </div>
 
-    <!-- Main Navigation Bar -->
+    <!-- Navigation -->
     <nav>
-        <a href="index.html" class="nav-logo">
-            <img src="logo.png" alt="فلاحين - Fla7in" onerror="this.src='logo.png.png'">
-            <span class="nav-logo-text">فلاحين</span>
+        <a href="index.html" class="nav-logo-box">
+            <img src="logo.png" alt="فلاحين">
+            <span class="nav-logo-title">فلاحين</span>
         </a>
 
-        <ul class="nav-menu-links">
+        <ul class="nav-menu">
             <li><a href="index.html">الرئيسية</a></li>
             <li><a href="shop.html" class="active">المتجر</a></li>
             <li><a href="consultation.html">استشارة مجانية</a></li>
         </ul>
 
-        <div class="nav-actions">
-            <a href="tel:20244122" class="btn-call-order">
+        <div>
+            <a href="tel:20244122" class="nav-call-btn">
                 <i class="fas fa-headset"></i>
                 <span>طلب عبر الهاتف</span>
             </a>
         </div>
     </nav>
 
-    <!-- Breadcrumb -->
-    <div class="breadcrumb-section">
-        <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
-        <span class="sep">&#x203A;</span>
-        <a href="shop.html">المتجر</a>
-        <span class="sep">&#x203A;</span>
-        <span class="active-title" id="breadcrumbTitle">جاري التحميل...</span>
-    </div>
+    <!-- Main Container -->
+    <div class="site-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar">
+            <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+            <span class="sep">&#x203A;</span>
+            <a href="shop.html">المتجر</a>
+            <span class="sep">&#x203A;</span>
+            <span class="current-crumb" id="breadcrumbName">جاري التحميل...</span>
+        </div>
 
-    <!-- Main Product Section -->
-    <main class="product-wrapper">
-        <div class="product-main-grid" id="productGridMount">
-            <!-- Dynamic Injection happens here via JS -->
-            <div style="grid-column: 1/-1; text-align:center; padding: 60px 0; color: #64748b;">
-                <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary); margin-bottom: 12px;"></i>
-                <p>جاري تحميل بيانات المنتج المباشر...</p>
+        <!-- 2 Columns Product Grid (Gallery + Unified Order Box) -->
+        <div class="product-section-grid" id="mainProductGrid">
+            <!-- Dynamic Injection -->
+            <div style="grid-column: 1/-1; text-align:center; padding:50px 0; color:#64748b;">
+                <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary); margin-bottom:10px;"></i>
+                <p>جاري تحميل تفاصيل المنتج...</p>
             </div>
         </div>
 
-        <!-- Description, Features & Customer Reviews Tabs (Tresoria Style) -->
-        <section class="product-tabs-section" id="productTabsSection">
-            <div class="tabs-header-nav">
-                <button class="tab-btn active" onclick="switchProductTab('details')">
-                    <i class="fas fa-info-circle"></i> الوصف والمميزات
+        <!-- Details / Kit Components / Customer Reviews Tabs -->
+        <div class="tabs-card">
+            <div class="tabs-nav">
+                <button class="tab-button active" onclick="setTab('details', this)">
+                    <i class="fas fa-circle-info"></i> الوصف والمميزات
                 </button>
-                <button class="tab-btn" onclick="switchProductTab('components')" id="tabComponentsBtn">
+                <button class="tab-button" id="tabKitBtn" onclick="setTab('kit', this)">
                     <i class="fas fa-boxes-stacked"></i> محتويات الباقة
                 </button>
-                <button class="tab-btn" onclick="switchProductTab('reviews')">
+                <button class="tab-button" onclick="setTab('reviews', this)">
                     <i class="fas fa-star"></i> آراء الحرفاء (27)
                 </button>
             </div>
 
-            <!-- Tab 1: Product Description & Highlights -->
-            <div class="tab-body-pane" id="tabPaneDetails">
-                <div id="tabDetailsContent">
-                    <!-- Dynamic Description Text -->
-                </div>
+            <!-- Tab 1: Details -->
+            <div class="tab-content" id="paneDetails">
+                <div id="tabDetailsBody"></div>
             </div>
 
-            <!-- Tab 2: Package Components / Specifications -->
-            <div class="tab-body-pane" id="tabPaneComponents" style="display: none;">
-                <div id="tabComponentsContent">
-                    <!-- Dynamic Component cards if kit, or Specs -->
-                </div>
+            <!-- Tab 2: Kit components -->
+            <div class="tab-content" id="paneKit" style="display:none;">
+                <div id="tabKitBody"></div>
             </div>
 
-            <!-- Tab 3: Customer Reviews (Tunisian Farmer Social Proof) -->
-            <div class="tab-body-pane" id="tabPaneReviews" style="display: none;">
-                <div class="reviews-summary-bar">
-                    <div class="reviews-score-big">
-                        <div class="big-score-num">4.8</div>
-                        <div>
-                            <div class="stars-group" style="font-size:16px;">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <div style="font-size:13px; color:#64748b; font-weight:700; margin-top:2px;">
-                                بناءً على 27 تقييم حقيقي من فلاحين تونسيين
-                            </div>
+            <!-- Tab 3: Reviews -->
+            <div class="tab-content" id="paneReviews" style="display:none;">
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="review-top">
+                            <span class="reviewer-name">عمر الورغي - الكاف <span class="guaranteed-tag"><i class="fas fa-check"></i> شاري موثق</span></span>
+                            <span class="review-date-txt">منذ 3 أيام</span>
                         </div>
-                    </div>
-                    <div class="verified-badge" style="font-size:13px; padding:6px 14px;">
-                        <i class="fas fa-shield-check"></i> تقييمات موثقة 100%
-                    </div>
-                </div>
-
-                <div class="reviews-cards-list">
-                    <div class="review-box">
-                        <div class="review-author-row">
-                            <span class="review-author">عمر الورغي - الكاف <span class="verified-badge"><i class="fas fa-check"></i> شاري موثق</span></span>
-                            <span class="review-date">منذ 3 أيام</span>
-                        </div>
-                        <div class="stars-group"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                        <p class="review-comment">سلعة ممتازة برشا، المقص يقص الزيتون كيف الزبدة والمنشار حاد وقوي برشا، والتوصيل وصلني في 24 ساعة لدار في الكاف. يعطيهم الصحة ناس ثقة.</p>
+                        <div class="stars-list"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="review-body-txt">سلعة ممتازة برشا، المقص يقص الزيتون كيف الزبدة والمنشار حاد وقوي برشا، والتوصيل وصلني في 24 ساعة لدار في الكاف. يعطيهم الصحة ناس ثقة.</p>
                     </div>
 
-                    <div class="review-box">
-                        <div class="review-author-row">
-                            <span class="review-author">الحاج سالم الجلاصي - نابل <span class="verified-badge"><i class="fas fa-check"></i> شاري موثق</span></span>
-                            <span class="review-date">منذ 5 أيام</span>
+                    <div class="review-card">
+                        <div class="review-top">
+                            <span class="reviewer-name">الحاج سالم الجلاصي - نابل <span class="guaranteed-tag"><i class="fas fa-check"></i> شاري موثق</span></span>
+                            <span class="review-date-txt">منذ 5 أيام</span>
                         </div>
-                        <div class="stars-group"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                        <p class="review-comment">العرض متع الباقة هاذي فرصة ما تتعوضش، شريت 2 باقات ليّا ولخويا مع التوصيل المجاني. عاينت السلعة قبل ما نخلص والليفرور محترم برشا.</p>
+                        <div class="stars-list"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="review-body-txt">العرض متع الباقة هاذي فرصة ما تتعوضش، شريت 2 باقات ليّا ولخويا مع التوصيل المجاني. عاينت السلعة قبل ما نخلص والليفرور محترم برشا.</p>
                     </div>
 
-                    <div class="review-box">
-                        <div class="review-author-row">
-                            <span class="review-author">بشير السويسي - صفاقس <span class="verified-badge"><i class="fas fa-check"></i> شاري موثق</span></span>
-                            <span class="review-date">منذ أسبوع</span>
+                    <div class="review-card">
+                        <div class="review-top">
+                            <span class="reviewer-name">بشير السويسي - صفاقس <span class="guaranteed-tag"><i class="fas fa-check"></i> شاري موثق</span></span>
+                            <span class="review-date-txt">منذ أسبوع</span>
                         </div>
-                        <div class="stars-group"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                        <p class="review-comment">المقص مرتاح في اليد ومعاه قطع الغيار بلاش، خدمة احترافية وننصح كل فلاح يشري منهم.</p>
+                        <div class="stars-list"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="review-body-txt">المقص مرتاح في اليد ومعاه قطع الغيار بلاش، خدمة احترافية وننصح كل فلاح يشري منهم.</p>
                     </div>
 
-                    <div class="review-box">
-                        <div class="review-author-row">
-                            <span class="review-author">كريم الماجري - جندوبة <span class="verified-badge"><i class="fas fa-check"></i> شاري موثق</span></span>
-                            <span class="review-date">منذ أسبوعين</span>
+                    <div class="review-card">
+                        <div class="review-top">
+                            <span class="reviewer-name">كريم الماجري - جندوبة <span class="guaranteed-tag"><i class="fas fa-check"></i> شاري موثق</span></span>
+                            <span class="review-date-txt">منذ أسبوعين</span>
                         </div>
-                        <div class="stars-group"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-                        <p class="review-comment">جودة عالية واستعمال سهل، خاصة منشار الساموراي يقطع العروق الكبيرة بسرعة ودقة.</p>
+                        <div class="stars-list"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                        <p class="review-body-txt">جودة عالية واستعمال سهل، خاصة منشار الساموراي يقطع العروق الكبيرة بسرعة ودقة.</p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <!-- Mobile Sticky Checkout Bar (TikTak Style) -->
-    <div class="sticky-mobile-order-bar" id="mobileStickyBar">
-        <div class="sticky-price-info">
-            <span class="sticky-item-name" id="stickyItemName">المجموع الكلي:</span>
-            <span class="sticky-total-price" id="stickyTotalPrice">-- د.ت</span>
         </div>
-        <button class="sticky-btn-buy" onclick="scrollToOrderForm()">
+    </div>
+
+    <!-- Mobile Sticky Bar -->
+    <div class="sticky-order-bar" id="stickyBar">
+        <div class="sticky-info">
+            <span class="sticky-name" id="stickyName">--</span>
+            <span class="sticky-sum-price" id="stickyPrice">-- د.ت</span>
+        </div>
+        <button class="sticky-order-btn" onclick="scrollToForm()">
             <i class="fas fa-bolt"></i>
             <span>اطلب الآن</span>
         </button>
     </div>
 
-    <!-- Floating WhatsApp Help Button -->
-    <a href="https://wa.me/21620244122" class="floating-whatsapp" target="_blank" title="تواصل معنا عبر واتساب">
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/21620244122" class="whatsapp-float" target="_blank" title="واتساب فلاحين">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Order Success Modal Confirmation -->
-    <div class="success-overlay" id="orderSuccessModal">
-        <div class="success-card">
-            <div class="success-icon-badge"><i class="fas fa-check"></i></div>
-            <h2 class="success-title">تم تسجيل طلبك بنجاح! 🎉</h2>
-            <p class="success-desc">
-                شكراً لثقتك بنا <strong id="successCustomerName"></strong>!<br>
-                سيتصل بك موزعنا هاتفياً على الرقم <strong id="successCustomerPhone" dir="ltr"></strong> لتأكيد الإرسال وموعد التسليم.
+    <!-- Order Success Modal -->
+    <div class="modal-backdrop" id="successModal">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fas fa-check"></i></div>
+            <h2 class="modal-title">تم تسجيل طلبك بنجاح! 🎉</h2>
+            <p class="modal-desc">
+                شكراً لثقتك بنا <strong id="succName"></strong>!<br>
+                سيتصل بك موزعنا هاتفياً على الرقم <strong id="succPhone" dir="ltr"></strong> لتأكيد الموعد والتسليم.
             </p>
-            <div class="order-summary-box">
-                <div><span>رقم الطلب:</span> <strong id="successOrderId">#FLH-0000</strong></div>
-                <div><span>العرض المختار:</span> <strong id="successItemTitle"></strong></div>
-                <div><span>الكمية:</span> <strong id="successItemQty">1</strong></div>
-                <div><span>الولاية والعنوان:</span> <strong id="successAddress"></strong></div>
-                <div style="border-top:1.5px dashed #cbd5e1; padding-top:6px; font-weight:900; color:var(--primary-dark);">
-                    <span>المبلغ عند الاستلام:</span> <strong id="successTotalAmount"></strong>
+            <div class="order-meta-box">
+                <div><span>رقم الطلب:</span> <strong id="succOrderId">#FLH-0000</strong></div>
+                <div><span>المنتج:</span> <strong id="succProduct"></strong></div>
+                <div><span>العنوان:</span> <strong id="succAddress"></strong></div>
+                <div style="border-top:1px dashed #cbd5e1; padding-top:6px; font-weight:900; color:var(--primary-dark);">
+                    <span>المبلغ عند الاستلام:</span> <strong id="succTotal"></strong>
                 </div>
             </div>
-            <div class="modal-buttons">
-                <a href="#" id="whatsappConfirmLink" class="btn-whatsapp-confirm" target="_blank">
+            <div class="modal-actions">
+                <a href="#" id="succWaBtn" class="btn-modal-wa" target="_blank">
                     <i class="fab fa-whatsapp"></i> تأكيد فوري عبر واتساب
                 </a>
-                <button class="btn-return-shop" onclick="window.location.href='shop.html'">
-                    <i class="fas fa-store"></i> متابعة التسوق في المتجر
+                <button class="btn-modal-back" onclick="window.location.href='shop.html'">
+                    <i class="fas fa-store"></i> متابعة التسوق
                 </button>
             </div>
         </div>
@@ -1525,7 +1343,7 @@
 
     <!-- Logic Script -->
     <script>
-        // 1. Firebase Initialization
+        // 1. Firebase Init
         const firebaseConfig = {
             apiKey: "AIzaSyC-z9igQOo7PbKiTzhi2fIRrHHuUXhN6AU",
             authDomain: "fla7in.firebaseapp.com",
@@ -1537,131 +1355,119 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // 2. Constants & Tunisian Governorates
+        // 2. Constants
         const STANDARD_DELIVERY_FEE = 7;
-        const FREE_DELIVERY_THRESHOLD = 90;
         const TUNISIAN_GOVERNORATES = [
             "تونس", "أريانة", "بن عروس", "منوبة", "نابل", "زغوان", "بنزرت", "باجة",
             "جندوبة", "الكاف", "سليانة", "سوسة", "المنستير", "المهدية", "صفاقس",
             "القيروان", "القصرين", "سيدي بوزيد", "قابس", "مدنين", "تطاوين", "قفصة", "توزر", "قبلي"
         ];
 
-        // 3. Fallback Product Catalog
+        // 3. Products
         const defaultProducts = [
             {
                 id: 'pack-pruning',
-                name: 'عدة التقليم الشاملة لاحتراف العناية بأشجارك',
+                name: 'حقيبة التقليم الكامل',
                 category: 'packs',
                 categoryLabel: 'باقة العروض الخاصة',
                 sku: 'FLH-PRUNING-KIT',
                 price: 59,
                 oldPrice: 89,
                 unit: 'طاقم كامل',
-                badge: 'promo',
                 freeDelivery: true,
                 images: ['pruning-shears-detail.jpg', 'samurai-saw-detail.jpg', 'safety-gloves-detail.jpg', 'book-guide.jpg'],
-                desc: 'عدة تقليم متكاملة وعالية الجودة لاحتراف تقليم أشجار الزيتون، اللوز، الكروم ومختلف الأشجار المثمرة. تجمع بين مقص تقليم فائق الحدة مع قطع غيار مجانية، منشار ساموراي ياباني الفعالية للقص السريع في الاتجاهين، وقفازات جلدية مريحة لحماية اليدين، مع دليل فني إرشادي للتقليم المثالي.',
-                active: true
+                desc: 'عدة تقليم متكاملة وعالية الجودة لاحتراف تقليم أشجار الزيتون، اللوز، الكروم ومختلف الأشجار المثمرة. تجمع بين مقص تقليم فائق الحدة مع قطع غيار مجانية، منشار ساموراي ياباني الفعالية للقص السريع في الاتجاهين، وقفازات جلدية مريحة لحماية اليدين، مع دليل فني إرشادي للتقليم المثالي.'
             },
             {
                 id: 'p20',
-                name: 'مقص تقليم فلاحي احترافي مع قطع غيار',
+                name: 'مقص تقليم احترافي مع قطع غيار',
                 category: 'equipment',
                 categoryLabel: 'معدات وأدوات فلاحية',
                 sku: 'FLH-SHEAR-PRO',
                 price: 35,
                 oldPrice: 48,
                 unit: 'قطعة',
-                badge: 'promo',
                 freeDelivery: false,
                 images: ['pruning-shears.jpg', 'pruning-shears-detail.jpg'],
-                desc: 'مقص تقليم احترافي بشفرة فولاذية كربونية مقاومة للصدأ توفر قصات ناعمة ودقيقة تحمي أغصان الشجرة من الفطريات والأمراض. مقبض مريح يقلل من تعب اليد أثناء ساعات العمل الطويلة.',
-                active: true
+                desc: 'مقص تقليم احترافي بشفرة فولاذية كربونية مقاومة للصدأ توفر قصات ناعمة ودقيقة تحمي أغصان الشجرة من الفطريات والأمراض.'
             },
             {
                 id: 'p22',
-                name: 'منشار تقليم ساموراي فائق الحدة والمتانة',
+                name: 'منشار تقليم ساموراي فائق الحدة',
                 category: 'equipment',
                 categoryLabel: 'معدات وأدوات فلاحية',
                 sku: 'FLH-SAW-SAMURAI',
                 price: 29,
                 oldPrice: 42,
                 unit: 'قطعة',
-                badge: 'new',
                 freeDelivery: false,
                 images: ['samurai-saw.jpg', 'samurai-saw-detail.jpg'],
-                desc: 'منشار تقليم ساموراي مصمم بأسنان ثلاثية حادة جداً لقص الأغصان السميكة والمتوسطة بسرعة فائقة في اتجاهي السحب والدفع دون تمزيق اللحاء. مقبض خشبي طبيعي معالج ومضاد للانزلاق.',
-                active: true
+                desc: 'منشار تقليم ساموراي مصمم بأسنان ثلاثية حادة جداً لقص الأغصان السميكة والمتوسطة بسرعة فائقة في اتجاهي السحب والدفع دون تمزيق اللحاء.'
             },
             {
                 id: 'p23',
-                name: 'قفازات الحماية الفلاحية المضادة للشوك والجروح',
+                name: 'قفازات الحماية الفلاحية #300',
                 category: 'equipment',
                 categoryLabel: 'معدات وأدوات فلاحية',
                 sku: 'FLH-GLOVES-PRO',
                 price: 15,
                 oldPrice: 22,
                 unit: 'زوج',
-                badge: '',
                 freeDelivery: false,
                 images: ['safety-gloves.jpg', 'safety-gloves-detail.jpg'],
-                desc: 'قفازات فلاحية من الجلد الطبيعي المعزز مع قماش تنفسي، صممت خصيصاً لحماية الأيدي من الأشواك، الخدوش والإصابات أثناء تقليم الزيتون والأشجار الشائكة.',
-                active: true
+                desc: 'قفازات فلاحية من الجلد الطبيعي المعزز مع قماش تنفسي، لحماية الأيدي من الأشواك والجروح أثناء العمل الميداني.'
             }
         ];
 
-        // 4. State
         let allProducts = [...defaultProducts];
         let currentProduct = null;
         let currentImageIndex = 0;
-        let selectedBundleIndex = 1; // Default to Option 2 (Popular Pack: 2 units or bundle promo)
+        let selectedBundleIndex = 0; // Default: Option 1 (1 piece at real 59 DT price!)
 
-        // Calculate Pricing & Bundles based on TikTak / Tresoria style
-        function getBundleOffers(product) {
-            const basePrice = product.price;
-            const baseOldPrice = product.oldPrice || Math.round(basePrice * 1.35);
+        function getOffers(p) {
+            const base = p.price;
+            const old = p.oldPrice || Math.round(base * 1.35);
 
             return [
                 {
                     qty: 1,
                     title: 'قطعة واحدة (1 Pièce)',
                     sub: 'سعر العرض العادي',
-                    price: basePrice,
-                    oldPrice: baseOldPrice,
+                    price: base,
+                    oldPrice: old,
                     badge: '',
-                    freeDelivery: product.freeDelivery === true
+                    freeDelivery: Boolean(p.freeDelivery)
                 },
                 {
                     qty: 2,
                     title: 'قطعتين (2 Pièces)',
                     sub: 'تخفيض إضافي + توصيل مجاني 🚚',
-                    price: Math.round(basePrice * 1.8), // e.g. 59*2=118 -> 106 DT
-                    oldPrice: baseOldPrice * 2,
+                    price: Math.round(base * 1.8),
+                    oldPrice: old * 2,
                     badge: 'الأكثر طلباً ⭐',
                     freeDelivery: true
                 },
                 {
                     qty: 3,
                     title: '3 قطع (3 Pièces)',
-                    sub: 'توفير أقصى + هدية إضافية 🎁',
-                    price: Math.round(basePrice * 2.5), // e.g. 59*3=177 -> 147 DT
-                    oldPrice: baseOldPrice * 3,
+                    sub: 'أفضل توفير + هدية مجانية 🎁',
+                    price: Math.round(base * 2.5),
+                    oldPrice: old * 3,
                     badge: 'أفضل عرض 🔥',
                     freeDelivery: true
                 }
             ];
         }
 
-        // Initialize Page
-        async function initPage() {
+        async function init() {
             const params = new URLSearchParams(window.location.search);
-            const productId = params.get('id') || 'pack-pruning';
+            const pid = params.get('id') || 'pack-pruning';
 
-            currentProduct = allProducts.find(p => p.id === productId) || defaultProducts[0];
-            updatePageMeta();
-            renderProduct();
+            currentProduct = allProducts.find(p => p.id === pid) || defaultProducts[0];
+            document.title = `فلاحين | ${currentProduct.name}`;
+            document.getElementById('breadcrumbName').textContent = currentProduct.name;
+            render();
 
-            // Try fetching updated product from Firestore if online
             try {
                 const snap = await db.collection('products').get();
                 if (!snap.empty) {
@@ -1671,441 +1477,355 @@
                         if (idx !== -1) allProducts[idx] = { ...allProducts[idx], ...fp };
                         else allProducts.push(fp);
                     });
-                    const refreshed = allProducts.find(p => p.id === productId);
-                    if (refreshed) {
-                        currentProduct = refreshed;
-                        updatePageMeta();
-                        renderProduct();
+                    const found = allProducts.find(p => p.id === pid);
+                    if (found) {
+                        currentProduct = found;
+                        document.title = `فلاحين | ${currentProduct.name}`;
+                        document.getElementById('breadcrumbName').textContent = currentProduct.name;
+                        render();
                     }
                 }
-            } catch (err) {
-                console.log('Firebase local fallback used:', err.message);
+            } catch (e) {
+                console.log('Firebase local fallback:', e.message);
             }
         }
 
-        function updatePageMeta() {
-            document.title = `فلاحين | ${currentProduct.name}`;
-            const bTitle = document.getElementById('breadcrumbTitle');
-            if (bTitle) bTitle.textContent = currentProduct.name;
-        }
-
-        function renderProduct() {
+        function render() {
             const p = currentProduct;
-            const bundles = getBundleOffers(p);
-            const activeBundle = bundles[selectedBundleIndex] || bundles[0];
+            const offers = getOffers(p);
+            const activeOffer = offers[selectedBundleIndex] || offers[0];
 
-            // Images calculation
             const rawImages = (p.images && p.images.length) ? p.images : (p.imageUrl ? [p.imageUrl] : ['pruning-shears-detail.jpg']);
             if (currentImageIndex >= rawImages.length) currentImageIndex = 0;
-            const mainImgSrc = rawImages[currentImageIndex];
+            const activeImg = rawImages[currentImageIndex];
 
-            // Delivery computation
-            const deliveryFee = activeBundle.freeDelivery ? 0 : STANDARD_DELIVERY_FEE;
-            const totalAmount = activeBundle.price + deliveryFee;
+            const deliveryFee = activeOffer.freeDelivery ? 0 : STANDARD_DELIVERY_FEE;
+            const grandTotal = activeOffer.price + deliveryFee;
 
-            // Generate Governorates HTML
-            const govOptionsHtml = TUNISIAN_GOVERNORATES.map(gov => `<option value="${gov}">${gov}</option>`).join('');
+            const govOptions = TUNISIAN_GOVERNORATES.map(gov => `<option value="${gov}">${gov}</option>`).join('');
 
-            // Generate Bundles HTML
-            const bundlesHtml = bundles.map((b, idx) => {
-                const isSel = idx === selectedBundleIndex;
-                const badgeHtml = b.badge ? `<span class="${idx === 1 ? 'bundle-badge-popular' : 'bundle-badge-best'}">${b.badge}</span>` : '';
+            // Bundles HTML
+            const bundlesHtml = offers.map((off, idx) => {
+                const isSelected = idx === selectedBundleIndex;
+                const badge = off.badge ? `<span class="${idx === 1 ? 'bundle-tag-popular' : 'bundle-tag-best'}">${off.badge}</span>` : '';
                 return `
-                    <div class="bundle-option-item ${isSel ? 'selected' : ''}" onclick="selectBundle(${idx})">
-                        ${badgeHtml}
-                        <div class="bundle-left-side">
-                            <div class="bundle-radio"></div>
-                            <div class="bundle-name-block">
-                                <span class="bundle-qty-text">${b.title}</span>
-                                <span class="bundle-sub-tag">${b.sub}</span>
+                    <div class="bundle-item ${isSelected ? 'selected' : ''}" onclick="pickBundle(${idx})">
+                        ${badge}
+                        <div class="bundle-info-left">
+                            <div class="bundle-radio-circle"></div>
+                            <div>
+                                <div class="bundle-label-title">${off.title}</div>
+                                <div class="bundle-label-sub">${off.sub}</div>
                             </div>
                         </div>
-                        <div class="bundle-price-block">
-                            <span class="bundle-total-price">${b.price} د.ت</span>
-                            <span class="bundle-old-price">${b.oldPrice} د.ت</span>
+                        <div class="bundle-price-right">
+                            <span class="bundle-val-main">${off.price} د.ت</span>
+                            <span class="bundle-val-old">${off.oldPrice} د.ت</span>
                         </div>
                     </div>
                 `;
             }).join('');
 
-            // Generate Thumbs HTML
+            // Thumbs HTML
             const thumbsHtml = rawImages.map((img, idx) => `
-                <div class="thumb-item ${idx === currentImageIndex ? 'active' : ''}" onclick="selectGalleryThumb(${idx})">
+                <div class="thumb-box ${idx === currentImageIndex ? 'active' : ''}" onclick="pickThumb(${idx})">
                     <img src="${img}" alt="${p.name}" onerror="this.src='images/'+this.getAttribute('data-raw')" data-raw="${img}">
                 </div>
             `).join('');
 
-            // Main Product Grid HTML
-            const container = document.getElementById('productGridMount');
+            // Mount HTML: Gallery (Left/Right) + Unified Product Card
+            const container = document.getElementById('mainProductGrid');
             container.innerHTML = `
-                <!-- Sticky Left Gallery -->
-                <div class="gallery-container">
-                    <div class="gallery-stage" id="galleryMainStage">
-                        <img src="${mainImgSrc}" id="galleryMainImg" alt="${p.name}" onerror="this.src='images/'+this.getAttribute('data-raw')" data-raw="${mainImgSrc}">
+                <!-- Gallery Column -->
+                <div class="gallery-wrap">
+                    <div class="gallery-main-card">
+                        <img src="${activeImg}" id="mainImgEl" alt="${p.name}" onerror="this.src='images/'+this.getAttribute('data-raw')" data-raw="${activeImg}">
                         
-                        <div class="gallery-badges-group">
-                            ${activeBundle.freeDelivery ? '<span class="badge-pill badge-free-delivery"><i class="fas fa-truck-fast"></i> توصيل مجاني</span>' : ''}
-                            <span class="badge-pill badge-promo"><i class="fas fa-fire"></i> وفّر ${(activeBundle.oldPrice - activeBundle.price)} د.ت</span>
+                        <div class="gallery-tag-group">
+                            ${activeOffer.freeDelivery ? '<span class="gallery-tag tag-green"><i class="fas fa-truck-fast"></i> توصيل مجاني</span>' : ''}
+                            <span class="gallery-tag tag-red"><i class="fas fa-fire"></i> وفر ${(activeOffer.oldPrice - activeOffer.price)} د.ت</span>
                         </div>
 
                         ${rawImages.length > 1 ? `
-                            <button class="gallery-nav-btn gallery-nav-prev" onclick="shiftGalleryImage(-1)"><i class="fas fa-chevron-right"></i></button>
-                            <button class="gallery-nav-btn gallery-nav-next" onclick="shiftGalleryImage(1)"><i class="fas fa-chevron-left"></i></button>
+                            <button class="gallery-nav-btn btn-prev" onclick="shiftImg(-1)"><i class="fas fa-chevron-right"></i></button>
+                            <button class="gallery-nav-btn btn-next" onclick="shiftImg(1)"><i class="fas fa-chevron-left"></i></button>
                         ` : ''}
-
-                        <div class="gallery-zoom-icon" title="تكبير الصورة" onclick="toggleZoomImage()">
-                            <i class="fas fa-magnifying-glass-plus"></i>
-                        </div>
                     </div>
 
                     ${rawImages.length > 1 ? `<div class="gallery-thumbs-row">${thumbsHtml}</div>` : ''}
 
-                    <div class="gallery-perks-box">
-                        <div class="gallery-perk-item">
-                            <i class="fas fa-box-open"></i>
-                            <span>معاينة قبل الخلاص</span>
-                        </div>
-                        <div class="gallery-perk-item">
-                            <i class="fas fa-truck-ramp-box"></i>
-                            <span>شحن 24-48 ساعة</span>
-                        </div>
-                        <div class="gallery-perk-item">
-                            <i class="fas fa-arrows-rotate"></i>
-                            <span>تبديل واسترجاع مضمون</span>
-                        </div>
+                    <div class="gallery-perks-strip">
+                        <div class="perk-cell"><i class="fas fa-box-open"></i><span>معاينة قبل الخلاص</span></div>
+                        <div class="perk-cell"><i class="fas fa-truck-ramp-box"></i><span>شحن 24-48 ساعة</span></div>
+                        <div class="perk-cell"><i class="fas fa-arrows-rotate"></i><span>تبديل واسترجاع</span></div>
                     </div>
                 </div>
 
-                <!-- Right Column: Details, Bundles & COD Form -->
-                <div class="product-info-panel">
-                    
-                    <!-- Top Product Header -->
-                    <div class="product-header-card">
-                        <div class="cat-sku-row">
-                            <span class="cat-tag">${p.categoryLabel || 'منتج فلاحي أصلي'}</span>
-                            <span class="sku-tag">رمز المنتج: ${p.sku || 'FLH-TN'}</span>
+                <!-- Product Details & COD Order Form (ONE Unified Card) -->
+                <div class="product-unified-card" id="productCardBox">
+                    <div class="prod-meta-top">
+                        <span class="prod-category-badge">${p.categoryLabel || 'منتج فلاحي أصلي'}</span>
+                        <span class="prod-sku-tag">رمز: ${p.sku || 'FLH-TN'}</span>
+                    </div>
+
+                    <h1 class="prod-main-title">${p.name}</h1>
+
+                    <div class="prod-stars-row">
+                        <div class="stars-list">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                         </div>
+                        <span class="stars-count-txt">4.8 (27 تقييم موثق)</span>
+                        <span class="guaranteed-tag"><i class="fas fa-shield-check"></i> أصلي ومضمون</span>
+                    </div>
 
-                        <h1 class="product-title">${p.name}</h1>
+                    <!-- Price Display -->
+                    <div class="prod-pricing-banner">
+                        <span class="price-current">${activeOffer.price} <span class="price-dt">د.ت</span></span>
+                        <span class="price-striked">${activeOffer.oldPrice} د.ت</span>
+                        <span class="discount-pill">وفر ${(activeOffer.oldPrice - activeOffer.price)} د.ت</span>
+                    </div>
 
-                        <div class="product-rating-row">
-                            <div class="stars-group">
-                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    <!-- Urgency Live views & stock -->
+                    <div class="urgency-box">
+                        <div class="viewers-txt">
+                            <span class="live-dot"></span>
+                            <span>يشاهد هذا العرض الآن <strong>14 شخصاً</strong> في تونس</span>
+                        </div>
+                        <div class="stock-progress-track">
+                            <div class="stock-txt-row">
+                                <span>🔥 سارع بالطلب! لم يتبق سوى 5 قطع في المخزون</span>
+                                <span>85% محجوز</span>
                             </div>
-                            <span class="rating-count">4.8 (27 تقييم موثق)</span>
-                            <span class="verified-badge"><i class="fas fa-check-circle"></i> أصلي ومضمون</span>
-                        </div>
-
-                        <!-- Price Section -->
-                        <div class="product-price-box">
-                            <span class="price-now" id="displayActivePrice">${activeBundle.price} <span class="price-currency">د.ت</span></span>
-                            <span class="price-was" id="displayActiveOldPrice">${activeBundle.oldPrice} د.ت</span>
-                            <span class="save-pill" id="displayActiveSave">وفر ${(activeBundle.oldPrice - activeBundle.price)} د.ت</span>
-                        </div>
-
-                        <!-- Scarcity / TikTak Urgency Bar -->
-                        <div class="urgency-container">
-                            <div class="live-viewers-alert">
-                                <span class="pulsing-dot"></span>
-                                <span>يشاهد هذا العرض الآن <strong>14 شخصاً</strong> في تونس</span>
-                            </div>
-                            <div class="stock-progress-box">
-                                <div class="stock-text">
-                                    <span>🔥 سارع بالطلب! لم يتبق سوى 5 قطع في المخزون</span>
-                                    <span>85% محجوز</span>
-                                </div>
-                                <div class="stock-bar-track">
-                                    <div class="stock-bar-fill"></div>
-                                </div>
+                            <div class="stock-bar-bg">
+                                <div class="stock-bar-bar"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- TikTak Multi-Pack Bundles Selection -->
-                    <div class="bundle-selection-card">
-                        <div class="bundle-card-title">
-                            <i class="fas fa-tags"></i>
-                            <span>اختر العرض المناسب لك:</span>
+                    <!-- Bundles Selector -->
+                    <div class="bundles-wrap">
+                        <div class="bundles-header">
+                            <i class="fas fa-tags" style="color:var(--primary);"></i>
+                            <span>اختر العرض المناسب:</span>
                         </div>
-                        <div class="bundle-options-list">
-                            ${bundlesHtml}
-                        </div>
+                        ${bundlesHtml}
                     </div>
 
-                    <!-- Quick COD Checkout Form (Anchor for smooth scroll) -->
-                    <div class="quick-checkout-container" id="directOrderFormSection">
-                        <div class="checkout-top-header">
-                            <div class="checkout-icon-wrap">
-                                <i class="fas fa-truck-fast"></i>
-                            </div>
-                            <div class="checkout-title-box">
-                                <h3>استمارة الطلب المباشر - الدفع عند الاستلام</h3>
-                                <p>أدخل معلوماتك وسنقوم بالاتصال بك والتوصيل حتى باب منزلك</p>
-                            </div>
+                    <!-- Quick Checkout Form -->
+                    <div class="checkout-dashed-box" id="codFormBox">
+                        <div class="checkout-box-title">
+                            <i class="fas fa-truck-fast"></i>
+                            <span>استمارة الطلب المباشر - الدفع عند الاستلام</span>
                         </div>
 
-                        <form class="checkout-form" id="tiktakCheckoutForm" onsubmit="submitProductOrder(event)">
-                            <div class="form-grid-2">
-                                <div class="form-field">
-                                    <label for="orderCustomerName">الاسم واللقب <span class="req">*</span></label>
-                                    <div class="form-input-shell">
+                        <form onsubmit="handleOrder(event)">
+                            <div class="form-grid">
+                                <div class="form-row-field">
+                                    <label for="cName">الاسم واللقب <span class="req">*</span></label>
+                                    <div class="input-shell">
                                         <i class="fas fa-user"></i>
-                                        <input type="text" id="orderCustomerName" class="field-input" placeholder="اسمك ولقبك الكامل" required>
+                                        <input type="text" id="cName" class="inp-control" placeholder="اسمك ولقبك" required>
                                     </div>
                                 </div>
-
-                                <div class="form-field">
-                                    <label for="orderCustomerPhone">رقم الهاتف <span class="req">*</span></label>
-                                    <div class="form-input-shell">
+                                <div class="form-row-field">
+                                    <label for="cPhone">رقم الهاتف <span class="req">*</span></label>
+                                    <div class="input-shell">
                                         <i class="fas fa-phone"></i>
-                                        <input type="tel" id="orderCustomerPhone" class="field-input" placeholder="8 أرقام (مثال: 98123456)" maxlength="8" required>
+                                        <input type="tel" id="cPhone" class="inp-control" placeholder="8 أرقام (مثال: 98123456)" maxlength="8" required>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-grid-2">
-                                <div class="form-field">
-                                    <label for="orderCustomerPhoneExtra">رقم هاتف إضافي <span style="color:#94a3b8; font-size:11px;">(اختياري)</span></label>
-                                    <div class="form-input-shell">
+                            <div class="form-grid" style="margin-top:10px;">
+                                <div class="form-row-field">
+                                    <label for="cPhoneExtra">رقم ثانٍ <span style="color:#94a3b8;font-size:11px;">(اختياري)</span></label>
+                                    <div class="input-shell">
                                         <i class="fas fa-mobile-screen"></i>
-                                        <input type="tel" id="orderCustomerPhoneExtra" class="field-input" placeholder="رقم ثانٍ لتسهيل التواصل">
+                                        <input type="tel" id="cPhoneExtra" class="inp-control" placeholder="هاتف إضافي للتواصل">
                                     </div>
                                 </div>
-
-                                <div class="form-field">
-                                    <label for="orderCustomerRegion">الولاية <span class="req">*</span></label>
-                                    <div class="form-input-shell">
-                                        <i class="fas fa-map-location-dot"></i>
-                                        <select id="orderCustomerRegion" class="field-select" required>
-                                            <option value="" disabled selected>-- اختر ولايتك (24 ولاية) --</option>
-                                            ${govOptionsHtml}
+                                <div class="form-row-field">
+                                    <label for="cRegion">الولاية <span class="req">*</span></label>
+                                    <div class="input-shell">
+                                        <i class="fas fa-location-dot"></i>
+                                        <select id="cRegion" class="sel-control" required>
+                                            <option value="" disabled selected>-- اختر ولايتك --</option>
+                                            ${govOptions}
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-field">
-                                <label for="orderCustomerAddress">العنوان التفصيلي والمدينة / المعتمدية <span class="req">*</span></label>
-                                <div class="form-input-shell">
-                                    <i class="fas fa-house-chimney"></i>
-                                    <input type="text" id="orderCustomerAddress" class="field-input" placeholder="المدينة، المعتمدية، اسم الشارع، أو أقرب معلم معروف" required>
+                            <div class="form-row-field" style="margin-top:10px;">
+                                <label for="cAddress">العنوان التفصيلي والمدينة / المعتمدية <span class="req">*</span></label>
+                                <div class="input-shell">
+                                    <i class="fas fa-house"></i>
+                                    <input type="text" id="cAddress" class="inp-control" placeholder="المدينة، المعتمدية، الشارع أو أقرب معلم" required>
                                 </div>
                             </div>
 
-                            <!-- Live Price Summary Box -->
-                            <div class="order-summary-card">
-                                <div class="summary-line">
-                                    <span>المجموع الجزئي للعرض:</span>
-                                    <span class="sum-val" id="sumSubtotal">${activeBundle.price.toFixed(2)} د.ت</span>
+                            <!-- Summary -->
+                            <div class="summary-card" style="margin-top:12px;">
+                                <div class="sum-row">
+                                    <span>المجموع الجزئي:</span>
+                                    <span class="val">${activeOffer.price.toFixed(2)} د.ت</span>
                                 </div>
-                                <div class="summary-line">
+                                <div class="sum-row">
                                     <span>مصاريف التوصيل:</span>
-                                    <span class="sum-val" id="sumDelivery">
-                                        ${activeBundle.freeDelivery ? '<span class="free-delivery-badge">مجاني 🚚</span>' : `${STANDARD_DELIVERY_FEE.toFixed(2)} د.ت`}
+                                    <span class="val">
+                                        ${activeOffer.freeDelivery ? '<span class="free-ship-badge">مجاني 🚚</span>' : `${STANDARD_DELIVERY_FEE.toFixed(2)} د.ت`}
                                     </span>
                                 </div>
-                                <div class="summary-line total-line">
-                                    <span>المجموع للدفع عند الاستلام:</span>
-                                    <span class="sum-val" id="sumTotal">${totalAmount.toFixed(2)} د.ت</span>
+                                <div class="sum-row total-line">
+                                    <span>المجموع النهائي عند الاستلام:</span>
+                                    <span class="val">${grandTotal.toFixed(2)} د.ت</span>
                                 </div>
                             </div>
 
-                            <!-- Big CTA Buy Button -->
-                            <button type="submit" class="btn-order-now-direct" id="submitOrderBtn">
-                                <i class="fas fa-bag-shopping"></i>
+                            <!-- Button -->
+                            <button type="submit" class="btn-order-submit" id="btnSubmitOrder" style="margin-top:12px;">
+                                <i class="fas fa-shopping-bag"></i>
                                 <span>اضغط هنا لتأكيد طلبك الآن</span>
                             </button>
                         </form>
 
-                        <!-- Trust Guarantees -->
-                        <div class="checkout-trust-grid">
-                            <div class="trust-bullet">
-                                <i class="fas fa-truck-fast"></i>
-                                <span>توصيل سريع 24 إلى 48 ساعة</span>
-                            </div>
-                            <div class="trust-bullet">
-                                <i class="fas fa-hand-holding-dollar"></i>
-                                <span>الدفع نقدًا عند استلام الطرد</span>
-                            </div>
-                            <div class="trust-bullet">
-                                <i class="fas fa-circle-check"></i>
-                                <span>حق معاينة الطرد قبل الدفع</span>
-                            </div>
-                            <div class="trust-bullet">
-                                <i class="fas fa-headset"></i>
-                                <span>متابعة وتأكيد هاتفي مباشر</span>
-                            </div>
+                        <div class="trust-grid">
+                            <div class="trust-item"><i class="fas fa-truck-fast"></i><span>توصيل 24-48 ساعة</span></div>
+                            <div class="trust-item"><i class="fas fa-hand-holding-dollar"></i><span>الدفع عند الاستلام</span></div>
+                            <div class="trust-item"><i class="fas fa-circle-check"></i><span>معاينة الطرد قبل الدفع</span></div>
+                            <div class="trust-item"><i class="fas fa-headset"></i><span>متابعة وتأكيد هاتفي</span></div>
                         </div>
                     </div>
-
                 </div>
             `;
 
-            // Update Sticky bar values
-            document.getElementById('stickyItemName').textContent = `${p.name} (${activeBundle.title})`;
-            document.getElementById('stickyTotalPrice').textContent = `${totalAmount.toFixed(2)} د.ت`;
+            // Update Sticky Bar
+            document.getElementById('stickyName').textContent = `${p.name} (${activeOffer.title})`;
+            document.getElementById('stickyPrice').textContent = `${grandTotal.toFixed(2)} د.ت`;
 
-            // Populate Tabs Content
-            renderTabsContent(p);
+            // Populate Tabs
+            renderTabs(p);
         }
 
-        // Render Tabs Info
-        function renderTabsContent(p) {
+        function renderTabs(p) {
             const isPruning = p.id === 'pack-pruning' || p.category === 'packs' || p.name.includes('تقليم');
 
-            // Tab 1: Details
-            const detailsMount = document.getElementById('tabDetailsContent');
-            detailsMount.innerHTML = `
-                <div class="kit-hero-highlight">
-                    <div class="kit-hero-title">
-                        <i class="fas fa-award"></i>
-                        <span>${p.name}</span>
-                    </div>
-                    <p class="kit-hero-text">
-                        ${p.desc}<br><br>
-                        تم اختيار هذا المنتج وتصنيعه بأعلى المعايير ليضمن للفلاح التونسي فعالية متواصلة، راحة في العمل الميداني، وتوفيراً كبيراً في الجهد والوقت.
-                    </p>
+            document.getElementById('tabDetailsBody').innerHTML = `
+                <div class="kit-banner">
+                    <h3><i class="fas fa-award"></i> <span>${p.name}</span></h3>
+                    <p>${p.desc}<br><br>تم اختيار هذا المنتج وتصنيعه بأعلى معايير الجودة لتوفير الراحة والفعالية والقص النظيف لحماية الأشجار وزيادة المردودية الفلاحية.</p>
                 </div>
             `;
 
-            // Tab 2: Components (Kit cards)
-            const compMount = document.getElementById('tabComponentsContent');
-            const compBtn = document.getElementById('tabComponentsBtn');
+            const kitBtn = document.getElementById('tabKitBtn');
+            const kitBody = document.getElementById('tabKitBody');
 
             if (isPruning) {
-                compBtn.style.display = 'inline-block';
-                compMount.innerHTML = `
-                    <div class="components-grid">
-                        <div class="component-item-card">
-                            <div class="component-img-box">
+                kitBtn.style.display = 'inline-block';
+                kitBody.innerHTML = `
+                    <div class="kit-grid">
+                        <div class="kit-card">
+                            <div class="kit-card-img">
                                 <img src="pruning-shears.jpg" alt="مقص تقليم" onerror="this.src='pruning-shears-detail.jpg'">
-                                <span class="component-badge">القطعة 1 في الحقيبة</span>
+                                <span class="kit-card-badge">القطعة 1 في الحقيبة</span>
                             </div>
-                            <div class="component-body">
-                                <h3 class="component-title">مقص التقليم الاحترافي</h3>
-                                <div class="component-sub">دقة في القص .. وسهولة متناهية</div>
-                                <ul class="features-check-list">
-                                    <li><i class="fas fa-check-circle"></i> <span><strong>شفرة فولاذية حادة:</strong> قطع نظيف يحمي الشجرة من الأمراض.</span></li>
-                                    <li><i class="fas fa-check-circle"></i> <span><strong>مقبض مريح:</strong> راحة تامة لقبضة اليد ومضاد للانزلاق.</span></li>
-                                    <li><i class="fas fa-gift" style="color:#ea580c"></i> <span><strong>قطع غيار إضافية:</strong> نابض احتياطي + مسمار تثبيت مجاناً.</span></li>
+                            <div class="kit-card-body">
+                                <h4 class="kit-card-title">مقص التقليم الاحترافي</h4>
+                                <div class="kit-card-sub">دقة في القص وسهولة في الاستخدام</div>
+                                <ul class="kit-card-list">
+                                    <li><i class="fas fa-check-circle"></i> <span>شفرة فولاذية حادة لقصات نظيفة.</span></li>
+                                    <li><i class="fas fa-check-circle"></i> <span>مقبض مريح ومضاد للانزلاق.</span></li>
+                                    <li><i class="fas fa-gift" style="color:#ea580c"></i> <span>قطع غيار إضافية: نابض + مسمار تثبيت مجاناً.</span></li>
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="component-item-card">
-                            <div class="component-img-box">
+                        <div class="kit-card">
+                            <div class="kit-card-img">
                                 <img src="samurai-saw.jpg" alt="منشار ساموراي" onerror="this.src='samurai-saw-detail.jpg'">
-                                <span class="component-badge">القطعة 2 في الحقيبة</span>
+                                <span class="kit-card-badge">القطعة 2 في الحقيبة</span>
                             </div>
-                            <div class="component-body">
-                                <h3 class="component-title">منشار تقليم ساموراي</h3>
-                                <div class="component-sub">قوة وصلابة لقص الفروع السميكة</div>
-                                <ul class="features-check-list">
-                                    <li><i class="fas fa-check-circle"></i> <span><strong>أسنان مقوسة حادة:</strong> سرعة وسهولة في الاتجاهين.</span></li>
-                                    <li><i class="fas fa-check-circle"></i> <span><strong>فولاذ كربوني ممتاز:</strong> مرونة وصلابة ومقاومة للتآكل.</span></li>
-                                    <li><i class="fas fa-check-circle"></i> <span><strong>مقبض خشبي معالج:</strong> ثبات فائق أثناء العمل الشاق.</span></li>
+                            <div class="kit-card-body">
+                                <h4 class="kit-card-title">منشار تقليم ساموراي</h4>
+                                <div class="kit-card-sub">قوة وصلابة لقص الفروع السميكة</div>
+                                <ul class="kit-card-list">
+                                    <li><i class="fas fa-check-circle"></i> <span>أسنان مقوسة حادة للقص في الاتجاهين.</span></li>
+                                    <li><i class="fas fa-check-circle"></i> <span>فولاذ كربوني ممتاز عالي الصلابة.</span></li>
+                                    <li><i class="fas fa-check-circle"></i> <span>مقبض خشبي معالج لثبات فائق.</span></li>
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="component-item-card">
-                            <div class="component-img-box">
+                        <div class="kit-card">
+                            <div class="kit-card-img">
                                 <img src="safety-gloves.jpg" alt="قفازات حماية" onerror="this.src='safety-gloves-detail.jpg'">
-                                <span class="component-badge">القطعة 3 في الحقيبة</span>
+                                <span class="kit-card-badge">القطعة 3 في الحقيبة</span>
                             </div>
-                            <div class="component-body">
-                                <h3 class="component-title">قفازات الحماية #300</h3>
-                                <div class="component-sub">أمان كامل لليدين ومقاومة للأشواك</div>
-                                <ul class="features-check-list">
-                                    <li><i class="fas fa-check-circle"></i> <span><strong>جلد طبيعي مقوّى:</strong> مقاومة للجروح والخدوش.</span></li>
-                                    <li><i class="fas fa-check-circle"></i> <span><strong>مرنة ومريحة:</strong> سهولة تامة في مسك الأدوات.</span></li>
-                                    <li><i class="fas fa-check-circle"></i> <span><strong>تهوية متوازنة:</strong> تمنع تعرق اليد أثناء الاستعمال المطول.</span></li>
+                            <div class="kit-card-body">
+                                <h4 class="kit-card-title">قفازات الحماية #300</h4>
+                                <div class="kit-card-sub">أمان كامل لليدين ومقاومة للأشواك</div>
+                                <ul class="kit-card-list">
+                                    <li><i class="fas fa-check-circle"></i> <span>جلد طبيعي مقوّى ومقاوم للجروح.</span></li>
+                                    <li><i class="fas fa-check-circle"></i> <span>مرونة تامة أثناء مسك الأدوات.</span></li>
+                                    <li><i class="fas fa-check-circle"></i> <span>نسيج تنفسي يمنع تعرق الأيدي.</span></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 `;
             } else {
-                compBtn.style.display = 'none';
+                kitBtn.style.display = 'none';
             }
         }
 
-        // Tab Switching
-        window.switchProductTab = function(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tabPaneDetails').style.display = 'none';
-            document.getElementById('tabPaneComponents').style.display = 'none';
-            document.getElementById('tabPaneReviews').style.display = 'none';
-
-            if (tabName === 'details') {
-                document.getElementById('tabPaneDetails').style.display = 'block';
-                event.currentTarget.classList.add('active');
-            } else if (tabName === 'components') {
-                document.getElementById('tabPaneComponents').style.display = 'block';
-                event.currentTarget.classList.add('active');
-            } else if (tabName === 'reviews') {
-                document.getElementById('tabPaneReviews').style.display = 'block';
-                event.currentTarget.classList.add('active');
-            }
-        };
-
-        // Select Bundle Tier
-        window.selectBundle = function(index) {
+        window.pickBundle = function(index) {
             selectedBundleIndex = index;
-            renderProduct();
+            render();
         };
 
-        // Gallery Actions
-        window.selectGalleryThumb = function(index) {
+        window.pickThumb = function(index) {
             currentImageIndex = index;
             const rawImages = (currentProduct.images && currentProduct.images.length) ? currentProduct.images : [currentProduct.imageUrl];
-            const mainImg = document.getElementById('galleryMainImg');
+            const mainImg = document.getElementById('mainImgEl');
             if (mainImg && rawImages[index]) {
                 mainImg.style.opacity = '0.3';
                 mainImg.src = rawImages[index];
                 setTimeout(() => { mainImg.style.opacity = '1'; }, 120);
             }
-            document.querySelectorAll('.thumb-item').forEach((t, i) => t.classList.toggle('active', i === index));
+            document.querySelectorAll('.thumb-box').forEach((t, i) => t.classList.toggle('active', i === index));
         };
 
-        window.shiftGalleryImage = function(delta) {
+        window.shiftImg = function(delta) {
             const rawImages = (currentProduct.images && currentProduct.images.length) ? currentProduct.images : [currentProduct.imageUrl];
             currentImageIndex = (currentImageIndex + delta + rawImages.length) % rawImages.length;
-            selectGalleryThumb(currentImageIndex);
+            pickThumb(currentImageIndex);
         };
 
-        window.toggleZoomImage = function() {
-            const img = document.getElementById('galleryMainImg');
-            if (img) {
-                if (img.style.transform === 'scale(1.5)') {
-                    img.style.transform = 'scale(1)';
-                } else {
-                    img.style.transform = 'scale(1.5)';
-                }
+        window.setTab = function(tab, btn) {
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('paneDetails').style.display = tab === 'details' ? 'block' : 'none';
+            document.getElementById('paneKit').style.display = tab === 'kit' ? 'block' : 'none';
+            document.getElementById('paneReviews').style.display = tab === 'reviews' ? 'block' : 'none';
+        };
+
+        window.scrollToForm = function() {
+            const box = document.getElementById('codFormBox');
+            if (box) {
+                box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => { document.getElementById('cName')?.focus(); }, 350);
             }
         };
 
-        // Scroll smoothly to order form (For mobile sticky bar & hero buttons)
-        window.scrollToOrderForm = function() {
-            const formSec = document.getElementById('directOrderFormSection');
-            if (formSec) {
-                formSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => {
-                    document.getElementById('orderCustomerName')?.focus();
-                }, 400);
-            }
-        };
-
-        // Handle Direct Cash-On-Delivery Order Submission
-        window.submitProductOrder = async function(e) {
+        window.handleOrder = async function(e) {
             e.preventDefault();
             if (!currentProduct) return;
 
-            const nameInp = document.getElementById('orderCustomerName');
-            const phoneInp = document.getElementById('orderCustomerPhone');
-            const phoneExtraInp = document.getElementById('orderCustomerPhoneExtra');
-            const regionInp = document.getElementById('orderCustomerRegion');
-            const addressInp = document.getElementById('orderCustomerAddress');
+            const nameInp = document.getElementById('cName');
+            const phoneInp = document.getElementById('cPhone');
+            const phoneExtraInp = document.getElementById('cPhoneExtra');
+            const regionInp = document.getElementById('cRegion');
+            const addressInp = document.getElementById('cAddress');
 
             const name = nameInp.value.trim();
             const phone = phoneInp.value.trim().replace(/\s+/g, '');
@@ -2113,50 +1833,38 @@
             const region = regionInp.value;
             const address = addressInp.value.trim();
 
-            // Validate
-            let hasError = false;
+            let hasErr = false;
             [nameInp, phoneInp, regionInp, addressInp].forEach(el => el.classList.remove('has-error'));
 
-            if (!name || name.length < 3) {
-                nameInp.classList.add('has-error');
-                hasError = true;
-            }
+            if (!name || name.length < 3) { nameInp.classList.add('has-error'); hasErr = true; }
             if (!phone || phone.length !== 8 || isNaN(phone)) {
                 phoneInp.classList.add('has-error');
-                alert('الرجاء إدخال رقم هاتف تونسي صحيح متكون من 8 أرقام (مثال: 98123456)');
-                hasError = true;
+                alert('الرجاء إدخال رقم هاتف تونسي صحيح متكون من 8 أرقام');
+                hasErr = true;
             }
-            if (!region) {
-                regionInp.classList.add('has-error');
-                hasError = true;
-            }
-            if (!address || address.length < 4) {
-                addressInp.classList.add('has-error');
-                hasError = true;
-            }
+            if (!region) { regionInp.classList.add('has-error'); hasErr = true; }
+            if (!address || address.length < 4) { addressInp.classList.add('has-error'); hasErr = true; }
 
-            if (hasError) return;
+            if (hasErr) return;
 
-            // Submit Button Loading state
-            const btn = document.getElementById('submitOrderBtn');
-            const originalBtnHtml = btn.innerHTML;
+            const btn = document.getElementById('btnSubmitOrder');
+            const originalTxt = btn.innerHTML;
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري تأكيد الطلب...';
 
-            const bundles = getBundleOffers(currentProduct);
-            const bundle = bundles[selectedBundleIndex] || bundles[0];
+            const offers = getOffers(currentProduct);
+            const bundle = offers[selectedBundleIndex] || offers[0];
             const deliveryFee = bundle.freeDelivery ? 0 : STANDARD_DELIVERY_FEE;
-            const totalToPay = bundle.price + deliveryFee;
+            const total = bundle.price + deliveryFee;
+            const orderCode = `FLH-${Math.floor(1000 + Math.random() * 9000)}`;
 
-            const orderIdCode = `FLH-${Math.floor(1000 + Math.random() * 9000)}`;
-
-            const orderPayload = {
-                orderCode: orderIdCode,
-                name: name,
-                phone: phone,
-                phoneExtra: phoneExtra,
-                region: region,
-                address: address,
+            const payload = {
+                orderCode,
+                name,
+                phone,
+                phoneExtra,
+                region,
+                address,
                 notes: `طلب مباشر TikTak: ${bundle.title}`,
                 items: [{
                     id: currentProduct.id,
@@ -2167,52 +1875,47 @@
                     unit: currentProduct.unit || 'وحدة'
                 }],
                 subtotal: bundle.price,
-                deliveryFee: deliveryFee,
-                total: totalToPay,
+                deliveryFee,
+                total,
                 status: 'pending',
                 source: 'tiktak_product_direct',
                 createdAt: firebase.firestore.FieldValue ? firebase.firestore.FieldValue.serverTimestamp() : new Date()
             };
 
-            const triggerSuccessModal = () => {
-                document.getElementById('successOrderId').textContent = `#${orderIdCode}`;
-                document.getElementById('successCustomerName').textContent = name;
-                document.getElementById('successCustomerPhone').textContent = phone;
-                document.getElementById('successItemTitle').textContent = `${currentProduct.name} - (${bundle.title})`;
-                document.getElementById('successItemQty').textContent = `${bundle.qty} قطعة`;
-                document.getElementById('successAddress').textContent = `${region}، ${address}`;
-                document.getElementById('successTotalAmount').textContent = `${totalToPay.toFixed(2)} د.ت`;
+            const showModal = () => {
+                document.getElementById('succOrderId').textContent = `#${orderCode}`;
+                document.getElementById('succName').textContent = name;
+                document.getElementById('succPhone').textContent = phone;
+                document.getElementById('succProduct').textContent = `${currentProduct.name} (${bundle.title})`;
+                document.getElementById('succAddress').textContent = `${region}، ${address}`;
+                document.getElementById('succTotal').textContent = `${total.toFixed(2)} د.ت`;
 
-                // WhatsApp message
-                const waMessage = encodeURIComponent(
+                const waText = encodeURIComponent(
                     `مرحباً منصة فلاحين! قمت بتسجيل طلبي للتو 📦\n` +
-                    `• رقم الطلب: #${orderIdCode}\n` +
-                    `• العرض: ${currentProduct.name} (${bundle.title})\n` +
+                    `• رقم الطلب: #${orderCode}\n` +
+                    `• المنتج: ${currentProduct.name} (${bundle.title})\n` +
                     `• الاسم: ${name}\n` +
                     `• الهاتف: ${phone}\n` +
                     `• العنوان: ${region} - ${address}\n` +
-                    `• المبلغ للدفع عند الاستلام: ${totalToPay.toFixed(2)} د.ت\n\n` +
-                    `يرجى تأكيد الشحن في أقرب وقت. شكراً لكم!`
+                    `• المبلغ عند الاستلام: ${total.toFixed(2)} د.ت`
                 );
-                document.getElementById('whatsappConfirmLink').href = `https://wa.me/21620244122?text=${waMessage}`;
-                document.getElementById('orderSuccessModal').classList.add('show');
+                document.getElementById('succWaBtn').href = `https://wa.me/21620244122?text=${waText}`;
+                document.getElementById('successModal').classList.add('show');
             };
 
             try {
-                await db.collection('orders').add(orderPayload);
-                triggerSuccessModal();
-                document.getElementById('tiktakCheckoutForm').reset();
+                await db.collection('orders').add(payload);
+                showModal();
             } catch (err) {
-                console.warn('Firebase error, showing fallback success:', err);
-                triggerSuccessModal();
+                console.warn('Firebase error, using local fallback:', err);
+                showModal();
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = originalBtnHtml;
+                btn.innerHTML = originalTxt;
             }
         };
 
-        // Start execution
-        initPage();
+        init();
     </script>
 </body>
 </html>
