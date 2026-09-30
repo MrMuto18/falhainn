@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فلاحين - إدارة المنتجات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        :root{--primary:#2d8659;--primary-light:#4caf50;--primary-dark:#1e6b45;--beige:#f5f1e8;--beige-dark:#ede8d8;--text:#2c3e50;--text-light:#6c757d;--sidebar-w:260px;--red:#e74c3c;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Tajawal',sans-serif;background:#f0f2f5;color:var(--text);display:flex;min-height:100vh;}
+        .sidebar{width:var(--sidebar-w);background:linear-gradient(180deg,#0d3d24,var(--primary-dark) 50%,var(--primary));position:fixed;right:0;top:0;bottom:0;z-index:200;display:flex;flex-direction:column;box-shadow:-4px 0 25px rgba(0,0,0,.15);}
+        .sidebar-brand{padding:26px 20px 20px;border-bottom:1px solid rgba(255,255,255,.1);}
+        .sidebar-logo{display:flex;align-items:center;gap:11px;text-decoration:none;}
+        .sidebar-logo-icon{width:40px;height:40px;background:rgba(255,255,255,.15);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+        .sidebar-logo-name{font-size:21px;font-weight:900;color:#fff;}
+        .sidebar-tagline{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;}
+        .sidebar-nav{flex:1;padding:16px 10px;overflow-y:auto;}
+        .nav-section-label{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;font-weight:600;padding:0 12px;margin:18px 0 6px;}
+        .nav-item{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:11px;color:rgba(255,255,255,.7);text-decoration:none;font-size:14px;font-weight:500;transition:all .25s;margin-bottom:3px;}
+        .nav-item:hover{background:rgba(255,255,255,.1);color:#fff;}
+        .nav-item.active{background:rgba(255,255,255,.18);color:#fff;font-weight:700;}
+        .nav-item i{width:18px;text-align:center;font-size:15px;}
+        .sidebar-footer{padding:16px;border-top:1px solid rgba(255,255,255,.1);}
+        .admin-info{display:flex;align-items:center;gap:9px;margin-bottom:10px;}
+        .admin-avatar{width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;}
+        .admin-name{font-size:13px;font-weight:700;color:#fff;}
+        .admin-role{font-size:11px;color:rgba(255,255,255,.5);}
+        .logout-btn{display:flex;align-items:center;gap:7px;width:100%;padding:9px 13px;background:rgba(231,76,60,.15);color:#ff8a80;border:1px solid rgba(231,76,60,.2);border-radius:9px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;}
+        .logout-btn:hover{background:rgba(231,76,60,.25);}
+        .main{margin-right:var(--sidebar-w);flex:1;display:flex;flex-direction:column;}
+        .header{background:#fff;padding:0 28px;height:68px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.06);position:sticky;top:0;z-index:100;}
+        .header-title{font-size:19px;font-weight:800;}
+        .header-title span{color:var(--primary);}
+        .add-btn{display:flex;align-items:center;gap:8px;padding:10px 20px;background:linear-gradient(135deg,var(--primary-dark),var(--primary-light));color:#fff;border:none;border-radius:12px;font-family:'Tajawal',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;box-shadow:0 4px 15px rgba(45,134,89,.3);}
+        .add-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(45,134,89,.4);}
+        .content{padding:28px;}
+
+        /* STATS */
+        .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px;}
+        .mini-stat{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 16px rgba(0,0,0,.06);display:flex;align-items:center;gap:14px;}
+        .mini-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+        .mini-icon.green{background:rgba(45,134,89,.1);}
+        .mini-icon.blue{background:rgba(33,150,243,.1);}
+        .mini-icon.orange{background:rgba(255,152,0,.1);}
+        .mini-num{font-size:28px;font-weight:900;line-height:1;}
+        .mini-label{font-size:13px;color:var(--text-light);}
+
+        /* TABLE CARD */
+        .table-card{background:#fff;border-radius:18px;box-shadow:0 4px 18px rgba(0,0,0,.06);overflow:hidden;}
+        .table-head{padding:18px 24px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+        .table-head-title{font-size:16px;font-weight:800;}
+        .search-bar{padding:9px 16px;border:2px solid var(--beige-dark);border-radius:11px;font-family:'Tajawal',sans-serif;font-size:14px;color:var(--text);background:var(--beige);outline:none;transition:border-color .2s;min-width:220px;}
+        .search-bar:focus{border-color:var(--primary);background:#fff;}
+        table{width:100%;border-collapse:collapse;}
+        th{background:#f8f9fa;padding:12px 16px;text-align:right;font-size:12px;font-weight:700;color:var(--text-light);border-bottom:1px solid #eee;}
+        td{padding:14px 16px;border-bottom:1px solid #f5f5f5;font-size:14px;vertical-align:middle;}
+        tr:last-child td{border-bottom:none;}
+        tr:hover td{background:#fafcfa;}
+        .product-thumb{font-size:32px;}
+        .badge{padding:3px 10px;border-radius:50px;font-size:12px;font-weight:700;}
+        .badge-active{background:rgba(45,134,89,.1);color:var(--primary-dark);}
+        .badge-inactive{background:rgba(108,117,125,.1);color:#555;}
+        .action-btn{padding:7px 13px;border-radius:8px;border:none;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+        .btn-edit{background:rgba(33,150,243,.1);color:#0277bd;}
+        .btn-edit:hover{background:#0277bd;color:#fff;}
+        .btn-del{background:rgba(231,76,60,.1);color:var(--red);}
+        .btn-del:hover{background:var(--red);color:#fff;}
+        .btn-toggle{background:rgba(255,152,0,.1);color:#e65100;}
+        .btn-toggle:hover{background:#ff9800;color:#fff;}
+        .empty-state{text-align:center;padding:60px;color:var(--text-light);}
+        .empty-state .icon{font-size:52px;display:block;margin-bottom:14px;}
+        .spinner{width:40px;height:40px;border:4px solid #eee;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;margin:40px auto;}
+        @keyframes spin{to{transform:rotate(360deg)}}
+
+        /* MODAL */
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(5px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
+        .modal-overlay.show{display:flex;animation:fadeIn .3s;}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .modal{background:#fff;border-radius:24px;max-width:580px;width:100%;max-height:90vh;overflow-y:auto;animation:slideUp .35s cubic-bezier(0.16,1,0.3,1);}
+        @keyframes slideUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+        .modal-head{background:linear-gradient(135deg,var(--primary-dark),var(--primary));padding:26px 30px;border-radius:24px 24px 0 0;color:#fff;}
+        .modal-head h2{font-size:20px;font-weight:900;}
+        .modal-body{padding:26px 30px;}
+        .form-group{margin-bottom:16px;}
+        .form-group label{display:block;font-size:14px;font-weight:700;color:var(--text);margin-bottom:7px;}
+        .req{color:var(--red);}
+        .form-input,.form-select,.form-textarea{width:100%;padding:11px 15px;border:2px solid var(--beige-dark);border-radius:11px;font-family:'Tajawal',sans-serif;font-size:15px;color:var(--text);background:var(--beige);outline:none;transition:border-color .2s;}
+        .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--primary);background:#fff;}
+        .form-input.error,.form-select.error{border-color:var(--red);}
+        .form-textarea{resize:vertical;min-height:80px;}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+        .modal-actions{display:flex;gap:12px;padding:0 30px 26px;}
+        .save-btn{flex:1;padding:13px;background:linear-gradient(135deg,var(--primary-dark),var(--primary-light));color:#fff;border:none;border-radius:12px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;}
+        .save-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(45,134,89,.35);}
+        .save-btn:disabled{opacity:.7;cursor:not-allowed;transform:none;}
+        .cancel-btn-m{flex:1;padding:13px;background:var(--beige);color:var(--text-light);border:2px solid var(--beige-dark);border-radius:12px;font-family:'Tajawal',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;}
+        .cancel-btn-m:hover{border-color:var(--primary-light);}
+
+        @media(max-width:900px){.sidebar{display:none;}.main{margin-right:0;}.stats-row{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <a href="../index.html" class="sidebar-logo">
+            <div class="sidebar-logo-icon">🌿</div>
+            <div><div class="sidebar-logo-name">فلاحين</div><div class="sidebar-tagline">لوحة التحكم</div></div>
+        </a>
+    </div>
+    <nav class="sidebar-nav">
+        <div class="nav-section-label">الرئيسية</div>
+        <a href="index.html" class="nav-item"><i class="fas fa-chart-pie"></i> لوحة المعلومات</a>
+        <div class="nav-section-label">إدارة المتجر</div>
+        <a href="products.html" class="nav-item active"><i class="fas fa-boxes"></i> المنتجات</a>
+        <a href="orders.html" class="nav-item"><i class="fas fa-shopping-cart"></i> الطلبيات</a>
+        <div class="nav-section-label">الاستشارات</div>
+        <a href="consultations.html" class="nav-item"><i class="fas fa-leaf"></i> الاستشارات</a>
+    </nav>
+    <div class="sidebar-footer">
+        <div class="admin-info"><div class="admin-avatar">👤</div><div><div class="admin-name">المدير</div><div class="admin-role">مشرف النظام</div></div></div>
+        <button class="logout-btn" onclick="window.location.href='../index.html'"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+    </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+    <div class="header">
+        <div class="header-title">إدارة <span>المنتجات</span></div>
+        <button class="add-btn" onclick="openAddModal()"><i class="fas fa-plus"></i> إضافة منتج</button>
+    </div>
+    <div class="content">
+        <div class="stats-row">
+            <div class="mini-stat"><div class="mini-icon green">📦</div><div><div class="mini-num" id="totalCount">—</div><div class="mini-label">إجمالي المنتجات</div></div></div>
+            <div class="mini-stat"><div class="mini-icon blue">✅</div><div><div class="mini-num" id="activeCount">—</div><div class="mini-label">نشطة</div></div></div>
+            <div class="mini-stat"><div class="mini-icon orange">⏸️</div><div><div class="mini-num" id="inactiveCount">—</div><div class="mini-label">مخفية</div></div></div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-head">
+                <div class="table-head-title">قائمة المنتجات</div>
+                <input type="text" class="search-bar" placeholder="🔍 بحث..." oninput="filterTable(this.value)">
+            </div>
+            <table>
+                <thead><tr><th>المنتج</th><th>التصنيف</th><th>السعر</th><th>الوحدة</th><th>الحالة</th><th>الإجراءات</th></tr></thead>
+                <tbody id="productsBody"><tr><td colspan="6"><div class="spinner"></div></td></tr></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="productModal">
+    <div class="modal">
+        <div class="modal-head"><h2 id="modalTitle">➕ إضافة منتج جديد</h2></div>
+        <div class="modal-body">
+            <input type="hidden" id="editId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>اسم المنتج <span class="req">*</span></label>
+                    <input type="text" class="form-input" id="pName" placeholder="مثال: سماد يوريا 46%">
+                </div>
+                <div class="form-group">
+                    <label>أيقونة (إيموجي)</label>
+                    <input type="text" class="form-input" id="pIcon" placeholder="🌿" maxlength="4">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>التصنيف <span class="req">*</span></label>
+                <select class="form-select" id="pCategory">
+                    <option value="">-- اختر --</option>
+                    <option value="nitrogen">🌿 آزوتية</option>
+                    <option value="phosphorus">🌸 فوسفاتية</option>
+                    <option value="potassium">💪 بوتاسية</option>
+                    <option value="complex">⭐ مركبة</option>
+                    <option value="organic">♻️ عضوية</option>
+                    <option value="foliar">💧 ورقية</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>السعر (د.ت) <span class="req">*</span></label>
+                    <input type="number" class="form-input" id="pPrice" placeholder="45" min="0" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label>الوحدة</label>
+                    <input type="text" class="form-input" id="pUnit" placeholder="مثال: 25 كغ">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>الوصف</label>
+                <textarea class="form-textarea" id="pDesc" placeholder="وصف مختصر للمنتج..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>المحاصيل المناسبة (افصل بفاصلة)</label>
+                <input type="text" class="form-input" id="pCrops" placeholder="زيتون، طماطم، حبوب">
+            </div>
+            <div class="form-group">
+                <label>التمييز</label>
+                <select class="form-select" id="pBadge">
+                    <option value="">بدون</option>
+                    <option value="new">جديد</option>
+                    <option value="promo">عرض</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button class="save-btn" id="saveBtn" onclick="saveProduct()"><i class="fas fa-save"></i> حفظ</button>
+            <button class="cancel-btn-m" onclick="closeModal()">إلغاء</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const firebaseConfig = {apiKey:"AIzaSyC-z9igQOo7PbKiTzhi2fIRrHHuUXhN6AU",authDomain:"fla7in.firebaseapp.com",projectId:"fla7in",storageBucket:"fla7in.firebasestorage.app",messagingSenderId:"463607450723",appId:"1:463607450723:web:04d95f04873d15634bfc56"};
+if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const defaultProducts=[
+    {id:'p1',name:'سماد يوريا 46%',category:'nitrogen',icon:'🌿',price:45,unit:'25 كغ',desc:'أفضل سماد آزوتي لدفع النمو الخضري',crops:['حبوب','طماطم'],badge:'',active:true},
+    {id:'p2',name:'سماد NPK 20-20-20',category:'complex',icon:'⭐',price:68,unit:'25 كغ',desc:'سماد مركب متوازن لجميع مراحل النمو',crops:['كل المحاصيل'],badge:'new',active:true},
+    {id:'p3',name:'سماد DAP 18-46',category:'phosphorus',icon:'🌸',price:72,unit:'50 كغ',desc:'فوسفات لتقوية الجذور',crops:['زيتون','حبوب'],badge:'',active:true},
+    {id:'p4',name:'كلوريد البوتاسيوم 60%',category:'potassium',icon:'💪',price:55,unit:'50 كغ',desc:'بوتاسيوم عالي لجودة الثمار',crops:['قوارص','عنب'],badge:'',active:true},
+    {id:'p5',name:'هيومات البوتاسيوم',category:'organic',icon:'♻️',price:38,unit:'1 كغ',desc:'محسّن عضوي للتربة',crops:['كل المحاصيل'],badge:'promo',active:true},
+    {id:'p6',name:'بوران 11%',category:'foliar',icon:'💧',price:29,unit:'1 كغ',desc:'رش ورقي للتزهير',crops:['زيتون','لوز'],badge:'',active:true},
+];
+
+const catName={nitrogen:'آزوتية',phosphorus:'فوسفاتية',potassium:'بوتاسية',complex:'مركبة',organic:'عضوية',foliar:'ورقية'};
+let allProducts=[], useFirebase=false;
+
+async function loadProducts(){
+    try{
+        const snap=await db.collection('products').get();
+        if(!snap.empty){allProducts=snap.docs.map(d=>({id:d.id,...d.data()}));useFirebase=true;}
+        else{allProducts=[...defaultProducts];}
+    }catch(e){allProducts=[...defaultProducts];}
+    renderStats();renderTable(allProducts);
+}
+
+function renderStats(){
+    document.getElementById('totalCount').textContent=allProducts.length;
+    document.getElementById('activeCount').textContent=allProducts.filter(p=>p.active!==false).length;
+    document.getElementById('inactiveCount').textContent=allProducts.filter(p=>p.active===false).length;
+}
+
+function filterTable(q){
+    const f=allProducts.filter(p=>p.name.toLowerCase().includes(q.toLowerCase())||(p.desc||'').toLowerCase().includes(q.toLowerCase()));
+    renderTable(f);
+}
+
+function renderTable(list){
+    if(!list.length){
+        document.getElementById('productsBody').innerHTML='<tr><td colspan="6"><div class="empty-state"><span class="icon">📦</span><h3>لا توجد منتجات</h3></div></td></tr>';
+        return;
+    }
+    document.getElementById('productsBody').innerHTML=list.map(p=>`
+        <tr>
+            <td><div style="display:flex;align-items:center;gap:10px"><span style="font-size:28px">${p.icon||'🌿'}</span><div><div style="font-weight:700">${p.name}</div><div style="font-size:12px;color:var(--text-light)">${(p.crops||[]).slice(0,2).join(' · ')}</div></div></div></td>
+            <td>${catName[p.category]||p.category||'—'}</td>
+            <td style="font-weight:800;color:var(--primary-dark)">${p.price} د.ت</td>
+            <td>${p.unit||'—'}</td>
+            <td>${p.active!==false?'<span class="badge badge-active">نشط</span>':'<span class="badge badge-inactive">مخفي</span>'}</td>
+            <td>
+                <button class="action-btn btn-edit" onclick="openEditModal('${p.id}')"><i class="fas fa-edit"></i></button>
+                <button class="action-btn btn-toggle" onclick="toggleProduct('${p.id}')">${p.active!==false?'إخفاء':'إظهار'}</button>
+                <button class="action-btn btn-del" onclick="deleteProduct('${p.id}')"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function openAddModal(){
+    document.getElementById('modalTitle').textContent='➕ إضافة منتج جديد';
+    document.getElementById('editId').value='';
+    ['pName','pIcon','pPrice','pUnit','pDesc','pCrops'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('pCategory').value='';document.getElementById('pBadge').value='';
+    document.getElementById('productModal').classList.add('show');
+}
+
+function openEditModal(pid){
+    const p=allProducts.find(x=>x.id===pid);if(!p)return;
+    document.getElementById('modalTitle').textContent='✏️ تعديل المنتج';
+    document.getElementById('editId').value=pid;
+    document.getElementById('pName').value=p.name||'';
+    document.getElementById('pIcon').value=p.icon||'';
+    document.getElementById('pCategory').value=p.category||'';
+    document.getElementById('pPrice').value=p.price||'';
+    document.getElementById('pUnit').value=p.unit||'';
+    document.getElementById('pDesc').value=p.desc||'';
+    document.getElementById('pCrops').value=(p.crops||[]).join('، ');
+    document.getElementById('pBadge').value=p.badge||'';
+    document.getElementById('productModal').classList.add('show');
+}
+
+function closeModal(){document.getElementById('productModal').classList.remove('show');}
+
+async function saveProduct(){
+    const name=document.getElementById('pName').value.trim();
+    const cat=document.getElementById('pCategory').value;
+    const price=parseFloat(document.getElementById('pPrice').value);
+    if(!name){document.getElementById('pName').classList.add('error');return;}else{document.getElementById('pName').classList.remove('error');}
+    if(!cat){document.getElementById('pCategory').classList.add('error');return;}else{document.getElementById('pCategory').classList.remove('error');}
+    const data={
+        name,category:cat,icon:document.getElementById('pIcon').value||'🌿',
+        price:isNaN(price)?0:price,unit:document.getElementById('pUnit').value.trim(),
+        desc:document.getElementById('pDesc').value.trim(),
+        crops:document.getElementById('pCrops').value.split(/[,،]/).map(s=>s.trim()).filter(Boolean),
+        badge:document.getElementById('pBadge').value,active:true,
+        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+    };
+    const btn=document.getElementById('saveBtn');btn.disabled=true;btn.innerHTML='<div style="width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite"></div>';
+    const editId=document.getElementById('editId').value;
+    try{
+        if(editId&&useFirebase){await db.collection('products').doc(editId).update(data);}
+        else if(useFirebase){await db.collection('products').add({...data,createdAt:firebase.firestore.FieldValue.serverTimestamp()});}
+        // Local update
+        if(editId){const idx=allProducts.findIndex(p=>p.id===editId);if(idx!==-1)allProducts[idx]={...allProducts[idx],...data};}
+        else{allProducts.unshift({id:'p'+Date.now(),...data});}
+    }catch(e){
+        if(editId){const idx=allProducts.findIndex(p=>p.id===editId);if(idx!==-1)allProducts[idx]={...allProducts[idx],...data};}
+        else{allProducts.unshift({id:'p'+Date.now(),...data});}
+    }
+    closeModal();renderStats();renderTable(allProducts);
+    btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> حفظ';
+}
+
+async function toggleProduct(pid){
+    const p=allProducts.find(x=>x.id===pid);if(!p)return;
+    p.active=!p.active;
+    if(useFirebase){try{await db.collection('products').doc(pid).update({active:p.active});}catch(e){}}
+    renderStats();renderTable(allProducts);
+}
+
+async function deleteProduct(pid){
+    if(!confirm('هل أنت متأكد من حذف هذا المنتج؟'))return;
+    if(useFirebase){try{await db.collection('products').doc(pid).delete();}catch(e){}}
+    allProducts=allProducts.filter(p=>p.id!==pid);
+    renderStats();renderTable(allProducts);
+}
+
+loadProducts();
+</script>
+</body>
+</html>

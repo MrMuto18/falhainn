@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فلاحين - استشارات زراعية ذكية</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2d8659;
+            --primary-light: #4caf50;
+            --primary-dark: #1e6b45;
+            --primary-ultra: #155c38;
+            --beige: #f5f1e8;
+            --beige-dark: #ede8d8;
+            --text: #2c3e50;
+            --text-light: #6c757d;
+            --white: #ffffff;
+            --shadow: 0 8px 32px rgba(45, 134, 89, 0.15);
+            --shadow-lg: 0 20px 60px rgba(45, 134, 89, 0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--beige);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        body.lang-fr, body.lang-en {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 0 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 15px;
+            padding: 8px 18px;
+            border-radius: 10px;
+            transition: all 0.25s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+            color: white !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 15px rgba(45, 134, 89, 0.35);
+        }
+
+        /* Language Switcher in Navbar */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--beige);
+            border-radius: 12px;
+            padding: 4px;
+            border: 1px solid rgba(45,134,89,0.15);
+        }
+
+        .lang-btn {
+            padding: 6px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: all 0.2s;
+            font-family: inherit;
+            letter-spacing: 0.3px;
+        }
+
+        .lang-btn:hover { color: var(--primary); }
+
+        .lang-btn.active {
+            background: white;
+            color: var(--primary-dark);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0d3d24 0%, var(--primary-dark) 30%, var(--primary) 65%, var(--primary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 100px 40px 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 140%;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero-badge span { animation: pulse 2s infinite; }
+
+        .hero h1 {
+            font-size: clamp(52px, 8vw, 96px);
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(90deg, #a8ff78, #78ffd6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 3vw, 26px);
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            margin-bottom: 50px;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: white;
+            color: var(--primary-dark);
+            text-decoration: none;
+            padding: 20px 44px;
+            border-radius: 18px;
+            font-size: 20px;
+            font-weight: 800;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease 0.3s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--beige), white);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-cta:hover::before { opacity: 1; }
+
+        .hero-cta span, .hero-cta i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-cta i { transition: transform 0.3s; }
+        .hero-cta:hover i { transform: translateX(-6px); }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 70px;
+            animation: fadeInUp 0.8s ease 0.5s both;
+        }
+
+        .hero-stat { text-align: center; color: white; }
+
+        .hero-stat-num {
+            font-size: 36px;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(90deg, #a8ff78, #78ffd6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4px;
+        }
+
+        /* ===== SECTIONS ===== */
+        section { padding: 90px 40px; }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .section-header { text-align: center; margin-bottom: 60px; }
+
+        .section-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-size: clamp(30px, 4vw, 48px);
+            font-weight: 900;
+            color: var(--text);
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+
+        .section-title em { font-style: normal; color: var(--primary); }
+
+        .section-desc {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-top: 14px;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        /* ===== FEATURES ===== */
+        .features { background: white; }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--beige);
+            border-radius: 24px;
+            padding: 40px 35px;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            opacity: 0;
+            transition: opacity 0.35s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-card:hover::before { opacity: 0.05; }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 25px rgba(45, 134, 89, 0.3);
+            position: relative;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .feature-desc {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* ===== CROPS ===== */
+        .crops { background: var(--beige); }
+
+        .crops-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .crop-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-decoration: none;
+            display: block;
+        }
+
+        .crop-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .crop-emoji {
+            font-size: 52px;
+            display: block;
+            margin-bottom: 14px;
+            line-height: 1;
+            transition: transform 0.3s;
+        }
+
+        .crop-card:hover .crop-emoji { transform: scale(1.15) rotate(5deg); }
+
+        .crop-name { font-size: 17px; font-weight: 700; color: var(--text); }
+
+        .crop-type { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+
+        /* ===== HOW IT WORKS ===== */
+        .how { background: white; }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            position: relative;
+        }
+
+        .steps-grid::before {
+            content: '';
+            position: absolute;
+            top: 45px;
+            right: 12.5%;
+            left: 12.5%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            z-index: 0;
+        }
+
+        .step { text-align: center; position: relative; z-index: 1; }
+
+        .step-num {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 30px rgba(45, 134, 89, 0.35);
+            border: 4px solid white;
+            transition: transform 0.3s;
+        }
+
+        .step:hover .step-num { transform: scale(1.1) rotate(-5deg); }
+
+        .step-title { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+        .step-desc { font-size: 14px; color: var(--text-light); line-height: 1.6; }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 900;
+            color: white;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            color: var(--primary-dark);
+            text-decoration: none;
+            padding: 18px 44px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 800;
+            transition: all 0.3s;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--primary-ultra);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 50px 40px 30px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-logo { font-size: 28px; font-weight: 900; color: white; }
+        .footer-logo span { color: #a8ff78; }
+
+        .footer-links { display: flex; gap: 24px; list-style: none; }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.25s;
+        }
+
+        .footer-links a:hover { color: white; }
+
+        .footer-copy {
+            font-size: 13px;
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== WELCOME OVERLAY ===== */
+        .welcome-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(145deg, #0d3d24 0%, var(--primary-dark) 40%, var(--primary) 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.6s cubic-bezier(0.8, 0, 0.2, 1), transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+        .welcome-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        .welcome-content {
+            text-align: center;
+            padding: 44px 50px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+            max-width: 90%;
+            width: 560px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .welcome-logo {
+            font-size: 42px;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .welcome-logo span { color: #a8ff78; }
+
+        .welcome-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .welcome-desc {
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 36px;
+            line-height: 1.65;
+        }
+
+        /* Language picker in welcome */
+        .lang-pick-label {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 14px;
+            font-weight: 500;
+            letter-spacing: 0.4px;
+        }
+
+        .lang-pick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .lang-pick-btn {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 16px 10px 14px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: white;
+            font-family: inherit;
+        }
+
+        .lang-pick-btn:hover {
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-3px);
+        }
+
+        .lang-pick-btn.selected {
+            background: white;
+            border-color: white;
+            color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .lang-pick-flag { font-size: 28px; display: block; margin-bottom: 6px; }
+        .lang-pick-name { font-size: 15px; font-weight: 800; display: block; }
+        .lang-pick-native { font-size: 12px; opacity: 0.75; display: block; margin-top: 2px; }
+
+        .welcome-enter-btn {
+            width: 100%;
+            padding: 17px;
+            background: linear-gradient(135deg, #a8ff78, #78ffd6);
+            color: #0d3d24;
+            border: none;
+            border-radius: 16px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 30px rgba(168,255,120,0.35);
+        }
+
+        .welcome-enter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(168,255,120,0.45);
+        }
+
+        /* ===== INLINE LANGUAGE SECTION ===== */
+        .lang-section {
+            background: linear-gradient(135deg, #0d3d24, var(--primary-dark));
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .lang-section-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 8px;
+        }
+
+        .lang-section-sub {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 28px;
+        }
+
+        .lang-section-grid {
+            display: inline-flex;
+            gap: 16px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 10px;
+        }
+
+        .lang-section-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 14px 28px;
+            border-radius: 14px;
+            border: 2px solid transparent;
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.25s;
+        }
+
+        .lang-section-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .lang-section-btn.active {
+            background: white;
+            color: var(--primary-dark);
+            border-color: white;
+        }
+
+        .lang-section-btn .lsb-flag { font-size: 22px; }
+        .lang-section-btn .lsb-name { font-size: 14px; font-weight: 800; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            nav { padding: 0 16px; }
+            .nav-links { display: none; }
+            section { padding: 60px 20px; }
+            .hero { padding: 90px 20px 50px; }
+            .hero-stats { gap: 30px; flex-wrap: wrap; }
+            .hero-stat-num { font-size: 28px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .crops-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps-grid::before { display: none; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .lang-section-grid { flex-direction: column; }
+            .lang-pick-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ===== WELCOME OVERLAY ===== -->
+<div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-content">
+        <div style="margin-bottom:20px;">
+            <img src="logo.png" alt="فلاحين" style="height:72px;width:auto;">
+        </div>
+        <div class="welcome-logo">فلا<span>حين</span> <span style="color:white;font-size:28px;vertical-align:middle;">/ Fla7in</span></div>
+
+        <h2 class="welcome-title" id="wTitle">مرحباً بكم في منصة الفلاحين</h2>
+        <p class="welcome-desc" id="wDesc">المنصة الأولى في تونس لتقديم الاستشارات الزراعية الذكية وتوفير أفضل المنتجات الفلاحية.</p>
+
+        <div class="lang-pick-label" id="wLangLabel">اختر لغتك / Choisissez votre langue / Choose your language</div>
+
+        <div class="lang-pick-grid">
+            <button class="lang-pick-btn selected" id="lpAr" onclick="pickLang('ar')">
+                <span class="lang-pick-flag">🇹🇳</span>
+                <span class="lang-pick-name">عربي</span>
+                <span class="lang-pick-native">Arabic</span>
+            </button>
+            <button class="lang-pick-btn" id="lpFr" onclick="pickLang('fr')">
+                <span class="lang-pick-flag">🇫🇷</span>
+                <span class="lang-pick-name">Français</span>
+                <span class="lang-pick-native">French</span>
+            </button>
+            <button class="lang-pick-btn" id="lpEn" onclick="pickLang('en')">
+                <span class="lang-pick-flag">🇺🇸</span>
+                <span class="lang-pick-name">English</span>
+                <span class="lang-pick-native">English</span>
+            </button>
+        </div>
+
+        <button class="welcome-enter-btn" id="wEnterBtn" onclick="enterSite()">
+            ادخل للمنصة ←
+        </button>
+    </div>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+    <a href="index.html" class="nav-logo">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <img src="logo.png" alt="فلاحين" style="height:60px;width:auto;">
+            <span style="font-family:'Tajawal',sans-serif;font-weight:900;font-size:24px;color:#2d8659;">فلاحين</span>
+        </div>
+    </a>
+    <ul class="nav-links">
+        <li><a href="index.html" class="active" data-i18n="nav.home">الرئيسية</a></li>
+        <li><a href="consultation.html" class="nav-cta" data-i18n="nav.consult">🚀 استشارة ذكية فورية</a></li>
+        <li><a href="shop.html" data-i18n="nav.shop">المتجر</a></li>
+        <li><a href="plant-scanner.html" data-i18n="nav.scanner">🌿 كاشف الأمراض</a></li>
+    </ul>
+    <div class="lang-switcher">
+        <button class="lang-btn active" id="nbAr" onclick="switchLang('ar')">ع</button>
+        <button class="lang-btn" id="nbFr" onclick="switchLang('fr')">FR</button>
+        <button class="lang-btn" id="nbEn" onclick="switchLang('en')">EN</button>
+    </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-particles" id="particles"></div>
+
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span>🟢</span>
+            <span data-i18n="hero.badge">منصة الاستشارات الزراعية الأولى في تونس</span>
+        </div>
+
+        <h1>فلا<em>حين</em></h1>
+
+        <p class="hero-subtitle" data-i18n-html="hero.subtitle">
+            استشارات زراعية مخصصة لك<br>مجانية · فورية · ذكية
+        </p>
+
+        <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+            <a href="consultation.html" class="hero-cta">
+                <span data-i18n="hero.cta1">🚀 ابدأ استشارة فلاحية مجانية</span>
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <a href="shop.html" class="hero-cta" style="padding:16px 36px;font-size:18px;">
+                <span data-i18n="hero.cta2">🛒 تصفح المتجر</span>
+            </a>
+            <a href="plant-scanner.html" class="hero-cta" style="padding:14px 32px;font-size:16px;background:rgba(255,255,255,0.15);color:white;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);">
+                <span data-i18n="hero.cta3">🌿 كاشف أمراض النباتات</span>
+            </a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-num">500+</div>
+                <div class="hero-stat-label" data-i18n="hero.stat1">فلاح راضٍ</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">1000+</div>
+                <div class="hero-stat-label" data-i18n="hero.stat2">استشارة مقدمة</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">12</div>
+                <div class="hero-stat-label" data-i18n="hero.stat3">محصول مدعوم</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-num">24</div>
+                <div class="hero-stat-label" data-i18n="hero.stat4">ولاية تونسية</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== LANGUAGE SWITCHER SECTION (mid-page) ===== -->
+<div class="lang-section">
+    <div class="lang-section-title" data-i18n="langSection.title">🌐 اختر لغتك</div>
+    <div class="lang-section-sub" data-i18n="langSection.sub">يمكنك تغيير لغة المنصة في أي وقت</div>
+    <div class="lang-section-grid">
+        <button class="lang-section-btn active" id="lsAr" onclick="switchLang('ar')">
+            <span class="lsb-flag">🇹🇳</span>
+            <span class="lsb-name">عربي</span>
+        </button>
+        <button class="lang-section-btn" id="lsFr" onclick="switchLang('fr')">
+            <span class="lsb-flag">🇫🇷</span>
+            <span class="lsb-name">Français</span>
+        </button>
+        <button class="lang-section-btn" id="lsEn" onclick="switchLang('en')">
+            <span class="lsb-flag">🇺🇸</span>
+            <span class="lsb-name">English</span>
+        </button>
+    </div>
+</div>
+
+<!-- ===== FEATURES ===== -->
+<section class="features">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-tag" data-i18n="features.tag">لماذا فلاحين؟</div>
+            <h2 class="section-title" data-i18n-html="features.title">خدمات <em>متكاملة</em> للفلاح التونسي</h2>
+            <p class="section-desc" data-i18n="features.desc">نقدم حلولاً زراعية مخصصة تناسب طبيعة أرضك وظروف محصولك</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title" data-i18n="features.f1.title">ردود فورية ذكية</div>
+                <p class="feature-desc" data-i18n="features.f1.desc">احصل على استشارة زراعية مفصلة في دقائق دون انتظار. نظامنا الذكي يحلل بيانات محصولك فوراً.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title" data-i18n="features.f2.title">حلول مخصصة لك</div>
+                <p class="feature-desc" data-i18n="features.f2.desc">الاستشارة تأخذ بعين الاعتبار نوع محصولك، المساحة، نوع التربة، ونظام الري لضمان أفضل النتائج.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🛒</div>
+                <div class="feature-title" data-i18n="features.f3.title">منتجات عالية الجودة</div>
+                <p class="feature-desc" data-i18n="features.f3.desc">متجرنا يوفر أفضل الأسمدة والمبيدات والمعدات الزراعية بأسعار تنافسية ومباشرة للفلاح.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CROPS ===== -->
+<section class="crops">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-tag" data-i18n="crops.tag">المحاصيل المدعومة</div>
+            <h2 class="section-title" data-i18n-html="crops.title"><em>12 محصول</em> في خدمتك</h2>
+            <p class="section-desc" data-i18n="crops.desc">من الأشجار المثمرة إلى الخضروات والحبوب، نغطي أهم محاصيل تونس</p>
+        </div>
+
+        <div class="crops-grid">
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🫒</span><div class="crop-name" data-i18n="crop.olive">زيتون</div><div class="crop-type" data-i18n="cropType.tree">أشجار مثمرة</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🌰</span><div class="crop-name" data-i18n="crop.almond">لوز</div><div class="crop-type" data-i18n="cropType.tree">أشجار مثمرة</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🍇</span><div class="crop-name" data-i18n="crop.grape">عنب</div><div class="crop-type" data-i18n="cropType.tree">أشجار مثمرة</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🍊</span><div class="crop-name" data-i18n="crop.citrus">قوارص</div><div class="crop-type" data-i18n="cropType.tree">أشجار مثمرة</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🍅</span><div class="crop-name" data-i18n="crop.tomato">طماطم</div><div class="crop-type" data-i18n="cropType.veg">خضروات</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🌶️</span><div class="crop-name" data-i18n="crop.pepper">فلفل</div><div class="crop-type" data-i18n="cropType.veg">خضروات</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🥔</span><div class="crop-name" data-i18n="crop.potato">بطاطا</div><div class="crop-type" data-i18n="cropType.veg">خضروات</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🍈</span><div class="crop-name" data-i18n="crop.watermelon">بطيخ</div><div class="crop-type" data-i18n="cropType.veg">خضروات</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🍉</span><div class="crop-name" data-i18n="crop.melon">دلاع</div><div class="crop-type" data-i18n="cropType.veg">خضروات</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🍓</span><div class="crop-name" data-i18n="crop.strawberry">فراولة</div><div class="crop-type" data-i18n="cropType.veg">خضروات</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🌾</span><div class="crop-name" data-i18n="crop.grains">حبوب</div><div class="crop-type" data-i18n="cropType.field">محاصيل حقلية</div></a>
+            <a href="consultation.html" class="crop-card reveal"><span class="crop-emoji">🌿</span><div class="crop-name" data-i18n="crop.fennel">بسباس</div><div class="crop-type" data-i18n="cropType.field">محاصيل حقلية</div></a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how">
+    <div class="container">
+        <div class="section-header reveal">
+            <div class="section-tag" data-i18n="how.tag">كيف يعمل</div>
+            <h2 class="section-title" data-i18n-html="how.title">استشارتك في <em>4 خطوات</em></h2>
+        </div>
+
+        <div class="steps-grid">
+            <div class="step reveal">
+                <div class="step-num">🌱</div>
+                <div class="step-title" data-i18n="how.s1.title">اختر محصولك</div>
+                <p class="step-desc" data-i18n="how.s1.desc">حدد نوع المحصول الذي تزرعه من قائمة المحاصيل المدعومة</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">📋</div>
+                <div class="step-title" data-i18n="how.s2.title">أجب على الأسئلة</div>
+                <p class="step-desc" data-i18n="how.s2.desc">7 أسئلة بسيطة عن أرضك ومحصولك وظروف الزراعة</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">🤖</div>
+                <div class="step-title" data-i18n="how.s3.title">الحل الذكي</div>
+                <p class="step-desc" data-i18n="how.s3.desc">نظامنا يحلل بياناتك ويقدم توصيات مخصصة لحالتك</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">✅</div>
+                <div class="step-title" data-i18n="how.s4.title">طبّق الحل</div>
+                <p class="step-desc" data-i18n="how.s4.desc">استفد من المنتجات والجرعات الموصى بها لمحصول أفضل</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<div class="cta-section">
+    <h2 data-i18n="cta.title">جاهز لتحسين محصولك؟</h2>
+    <p data-i18n="cta.desc">انضم لـ 500+ فلاح تونسي يستفيدون من استشاراتنا المجانية</p>
+    <a href="consultation.html" class="cta-btn">
+        <span data-i18n="cta.btn">🚀 ابدأ استشارة مجانية الآن</span>
+    </a>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-logo">فلا<span>حين</span></div>
+        <ul class="footer-links">
+            <li><a href="index.html" data-i18n="nav.home">الرئيسية</a></li>
+            <li><a href="consultation.html" data-i18n="footer.consult">استشارة مجانية</a></li>
+            <li><a href="shop.html" data-i18n="nav.shop">المتجر</a></li>
+        </ul>
+    </div>
+    <p class="footer-copy" data-i18n="footer.copy">© 2025 فلاحين - جميع الحقوق محفوظة. صُنع بـ 💚 للفلاح التونسي</p>
+</footer>
+
+<script src="i18n.js"></script>
+<script>
+// Welcome overlay lang pick (before entering)
+function pickLang(lang) {
+    try {
+        chosenLang = lang;
+        document.getElementById('lpAr').classList.toggle('selected', lang==='ar');
+        document.getElementById('lpFr').classList.toggle('selected', lang==='fr');
+        document.getElementById('lpEn').classList.toggle('selected', lang==='en');
+
+        const t = typeof i18n !== 'undefined' ? i18n[lang] : null;
+        if (t) {
+            document.getElementById('wTitle').textContent = t['welcome.title'];
+            document.getElementById('wDesc').textContent = t['welcome.desc'];
+            document.getElementById('wEnterBtn').textContent = t['welcome.enter'];
+        }
+        document.body.style.fontFamily = (lang==='ar') ? "'Tajawal', sans-serif" : "'Poppins', sans-serif";
+    } catch (err) {
+        console.error('pickLang error:', err);
+    }
+}
+
+function enterSite() {
+    try {
+        if (typeof switchLang === 'function') {
+            switchLang(chosenLang);
+        } else {
+            console.error('switchLang is not defined!');
+        }
+        const overlay = document.getElementById('welcomeOverlay');
+        overlay.classList.add('hidden');
+        setTimeout(() => overlay.style.display = 'none', 600);
+        try { sessionStorage.setItem('welcomeSeen', 'true'); } catch(e){}
+    } catch (err) {
+        alert('Error entering site: ' + err.message);
+    }
+}
+
+// Welcome overlay logic
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('welcomeOverlay');
+
+    if (!sessionStorage.getItem('welcomeSeen')) {
+        // Pre-select saved lang
+        pickLang(currentLang);
+        // Show overlay
+        overlay.style.display = 'flex';
+    } else {
+        overlay.style.display = 'none';
+        switchLang(currentLang);
+    }
+});
+
+// Particles
+const pContainer = document.getElementById('particles');
+const cropIcons = ['🌿','🍃','🌱','🌾','🫒','🍇','🍅','🌶️'];
+for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+        left:${Math.random()*100}%;
+        width:${20+Math.random()*30}px;
+        height:${20+Math.random()*30}px;
+        animation-duration:${8+Math.random()*12}s;
+        animation-delay:${Math.random()*10}s;
+        font-size:${16+Math.random()*20}px;
+        display:flex;align-items:center;justify-content:center;
+        background:transparent;
+    `;
+    p.textContent = cropIcons[Math.floor(Math.random()*cropIcons.length)];
+    pContainer.appendChild(p);
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+        if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

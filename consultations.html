@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فلاحين - لوحة التحكم | الاستشارات</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+    <style>
+        :root {
+            --primary: #2d8659;
+            --primary-light: #4caf50;
+            --primary-dark: #1e6b45;
+            --beige: #f5f1e8;
+            --text: #2c3e50;
+            --text-light: #6c757d;
+            --white: #ffffff;
+            --sidebar-w: 260px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: #f0f2f5;
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: linear-gradient(180deg, #0d3d24 0%, var(--primary-dark) 50%, var(--primary) 100%);
+            position: fixed;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -4px 0 25px rgba(0,0,0,0.15);
+        }
+
+        .sidebar-brand {
+            padding: 28px 22px 22px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-logo-icon {
+            width: 42px; height: 42px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .sidebar-logo-name {
+            font-size: 22px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .sidebar-tagline {
+            font-size: 11px;
+            color: rgba(255,255,255,0.55);
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 12px;
+            overflow-y: auto;
+        }
+
+        .sidebar-nav-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            padding: 0 12px;
+            margin-bottom: 8px;
+            margin-top: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.25s;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.18);
+            color: white;
+            font-weight: 700;
+        }
+
+        .nav-item i { width: 20px; text-align: center; font-size: 16px; }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .admin-avatar {
+            width: 38px; height: 38px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .admin-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .admin-role {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(231,76,60,0.15);
+            color: #ff8a80;
+            border: 1px solid rgba(231,76,60,0.2);
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(231,76,60,0.25);
+            color: #ff5252;
+        }
+
+        /* ===== MAIN ===== */
+        .main {
+            margin-right: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            padding: 0 30px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .header-title span { color: var(--primary); }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .refresh-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .refresh-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* CONTENT */
+        .content {
+            padding: 30px;
+            flex: 1;
+        }
+
+        /* STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px 26px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: transform 0.25s;
+        }
+
+        .stat-card:hover { transform: translateY(-3px); }
+
+        .stat-icon {
+            width: 58px; height: 58px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.green { background: rgba(45,134,89,0.1); }
+        .stat-icon.blue { background: rgba(41,182,246,0.1); }
+        .stat-icon.orange { background: rgba(255,152,0,0.1); }
+
+        .stat-num {
+            font-size: 34px;
+            font-weight: 900;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* FILTERS */
+        .filters-card {
+            background: white;
+            border-radius: 18px;
+            padding: 22px 26px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .filters-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filters-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 14px;
+            align-items: end;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .filter-input, .filter-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #e8e8e8;
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            background: #fafafa;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .filter-input:focus, .filter-select:focus {
+            border-color: var(--primary);
+            background: white;
+        }
+
+        /* TABLE */
+        .table-card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px 26px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .table-count {
+            font-size: 13px;
+            color: var(--text-light);
+            background: #f5f5f5;
+            padding: 4px 12px;
+            border-radius: 50px;
+        }
+
+        .table-wrap { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 14px 18px;
+            text-align: right;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-light);
+            border-bottom: 1px solid #eee;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+            color: var(--text);
+            vertical-align: middle;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #fafcfa; }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-new { background: rgba(255,152,0,0.12); color: #e65100; }
+        .badge-contacted { background: rgba(41,182,246,0.12); color: #0277bd; }
+        .badge-done { background: rgba(45,134,89,0.12); color: var(--primary-dark); }
+
+        .action-btn {
+            padding: 7px 14px;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn-view {
+            background: rgba(45,134,89,0.1);
+            color: var(--primary-dark);
+        }
+
+        .action-btn-view:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn-call {
+            background: rgba(41,182,246,0.1);
+            color: #0277bd;
+        }
+
+        .action-btn-call:hover {
+            background: #0277bd;
+            color: white;
+        }
+
+        /* EMPTY / LOADING */
+        .empty-state, .loading-state {
+            text-align: center;
+            padding: 70px 30px;
+            color: var(--text-light);
+        }
+
+        .empty-state .icon, .loading-state .spinner-icon {
+            font-size: 56px;
+            display: block;
+            margin-bottom: 18px;
+        }
+
+        .empty-state h3, .loading-state h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .loading-spinner-sm {
+            width: 48px; height: 48px;
+            border: 4px solid #eee;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 18px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* DETAIL MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: white;
+            border-radius: 24px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-head {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 28px 32px;
+            border-radius: 24px 24px 0 0;
+            color: white;
+        }
+
+        .modal-head h2 { font-size: 20px; font-weight: 800; }
+        .modal-head p { font-size: 14px; opacity: 0.8; margin-top: 4px; }
+
+        .modal-body { padding: 28px 32px; }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .detail-item { }
+        .detail-label {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            padding: 0 32px 28px;
+            flex-wrap: wrap;
+        }
+
+        .modal-action-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px;
+            border-radius: 12px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary-modal {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            color: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(45,134,89,0.3);
+        }
+
+        .btn-secondary-modal {
+            background: #f5f5f5;
+            color: var(--text);
+            border: 1.5px solid #e0e0e0;
+        }
+
+        .btn-secondary-modal:hover { background: #eee; }
+
+        .status-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 14px;
+            color: var(--text);
+            background: #fafafa;
+            outline: none;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+
+        .status-select:focus {
+            border-color: var(--primary);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main { margin-right: 0; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .filters-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <a href="../index.html" class="sidebar-logo">
+            <div class="sidebar-logo-icon">🌿</div>
+            <div>
+                <div class="sidebar-logo-name">فلاحين</div>
+                <div class="sidebar-tagline">لوحة التحكم</div>
+            </div>
+        </a>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="sidebar-nav-label">القائمة الرئيسية</div>
+        <a href="#" class="nav-item"><i class="fas fa-chart-pie"></i> لوحة المعلومات</a>
+        <a href="#" class="nav-item"><i class="fas fa-boxes"></i> المنتجات</a>
+        <a href="#" class="nav-item"><i class="fas fa-question-circle"></i> الأسئلة</a>
+        <a href="#" class="nav-item"><i class="fas fa-shopping-cart"></i> الطلبيات</a>
+        <a href="consultations.html" class="nav-item active"><i class="fas fa-leaf"></i> الاستشارات</a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="admin-info">
+            <div class="admin-avatar">👤</div>
+            <div>
+                <div class="admin-name">المدير</div>
+                <div class="admin-role">مشرف النظام</div>
+            </div>
+        </div>
+        <button class="logout-btn" onclick="window.location.href='../index.html'">
+            <i class="fas fa-sign-out-alt"></i>
+            تسجيل الخروج
+        </button>
+    </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-title">الاستشارات <span>الزراعية</span></div>
+        <div class="header-actions">
+            <button class="refresh-btn" onclick="loadConsultations()">
+                <i class="fas fa-sync-alt"></i>
+                تحديث
+            </button>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon green">🌱</div>
+                <div>
+                    <div class="stat-num" id="statTotal">—</div>
+                    <div class="stat-label">إجمالي الاستشارات</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue">📅</div>
+                <div>
+                    <div class="stat-num" id="statToday">—</div>
+                    <div class="stat-label">استشارات اليوم</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">🔔</div>
+                <div>
+                    <div class="stat-num" id="statNew">—</div>
+                    <div class="stat-label">جديدة (لم يتم الرد)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="filters-card">
+            <div class="filters-title"><i class="fas fa-filter"></i> فلترة النتائج</div>
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label>بحث بالاسم أو الهاتف</label>
+                    <input type="text" class="filter-input" id="searchInput" placeholder="اكتب للبحث..." oninput="applyFilters()">
+                </div>
+                <div class="filter-group">
+                    <label>المحصول</label>
+                    <select class="filter-select" id="cropFilter" onchange="applyFilters()">
+                        <option value="">كل المحاصيل</option>
+                        <option value="olive">زيتون</option>
+                        <option value="almond">لوز</option>
+                        <option value="grape">عنب</option>
+                        <option value="citrus">قوارص</option>
+                        <option value="tomato">طماطم</option>
+                        <option value="pepper">فلفل</option>
+                        <option value="potato">بطاطا</option>
+                        <option value="watermelon">بطيخ</option>
+                        <option value="melon">دلاع</option>
+                        <option value="strawberry">فراولة</option>
+                        <option value="grains">حبوب</option>
+                        <option value="fennel">بسباس</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>المنطقة</label>
+                    <select class="filter-select" id="regionFilter" onchange="applyFilters()">
+                        <option value="">كل المناطق</option>
+                        <option>تونس</option><option>أريانة</option><option>بن عروس</option>
+                        <option>منوبة</option><option>نابل</option><option>زغوان</option>
+                        <option>بنزرت</option><option>باجة</option><option>جندوبة</option>
+                        <option>الكاف</option><option>سليانة</option><option>القيروان</option>
+                        <option>القصرين</option><option>سيدي بوزيد</option><option>سوسة</option>
+                        <option>المنستير</option><option>المهدية</option><option>صفاقس</option>
+                        <option>قفصة</option><option>توزر</option><option>قبلي</option>
+                        <option>قابس</option><option>مدنين</option><option>تطاوين</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button class="refresh-btn" onclick="clearFilters()">
+                        <i class="fas fa-times"></i> مسح
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-card">
+            <div class="table-header">
+                <div class="table-header-title">قائمة الاستشارات</div>
+                <div class="table-count" id="tableCount">جاري التحميل...</div>
+            </div>
+
+            <div class="table-wrap">
+                <table id="consultTable">
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>الاسم</th>
+                            <th>الهاتف</th>
+                            <th>المحصول</th>
+                            <th>المنطقة</th>
+                            <th>المساحة</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="consultBody">
+                        <tr>
+                            <td colspan="8">
+                                <div class="loading-state">
+                                    <div class="loading-spinner-sm"></div>
+                                    <h3>جاري تحميل الاستشارات...</h3>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+    <div class="modal">
+        <div class="modal-head">
+            <h2>🌿 تفاصيل الاستشارة</h2>
+            <p id="modalDate"></p>
+        </div>
+        <div class="modal-body">
+            <div class="detail-grid" id="detailGrid"></div>
+
+            <div style="margin-bottom:14px">
+                <label style="font-size:13px;font-weight:700;color:var(--text-light);display:block;margin-bottom:8px">تغيير الحالة:</label>
+                <select class="status-select" id="statusSelect" onchange="updateStatus()">
+                    <option value="new">🟠 جديد</option>
+                    <option value="contacted">🔵 تم الاتصال</option>
+                    <option value="done">🟢 مكتمل</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <a id="callLink" href="#" class="modal-action-btn btn-primary-modal">
+                <i class="fas fa-phone"></i> اتصال
+            </a>
+            <button class="modal-action-btn btn-secondary-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i> إغلاق
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ===== FIREBASE =====
+const firebaseConfig = {
+    apiKey: "AIzaSyC-z9igQOo7PbKiTzhi2fIRrHHuUXhN6AU",
+    authDomain: "fla7in.firebaseapp.com",
+    projectId: "fla7in",
+    storageBucket: "fla7in.firebasestorage.app",
+    messagingSenderId: "463607450723",
+    appId: "1:463607450723:web:04d95f04873d15634bfc56"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+let allConsultations = [];
+let currentDocId = null;
+
+// ===== AREA MAP =====
+const areaMap = { small: 'صغيرة', medium: 'متوسطة', large: 'كبيرة' };
+const waterMap = { drip: 'تقطير', sprinkler: 'رش', flood: 'غمر', rain: 'مطري' };
+const soilMap = { sandy: 'رملية', clay: 'طينية', mixed: 'مختلطة' };
+const salinityMap = { low: 'منخفضة', medium: 'متوسطة', high: 'عالية' };
+const statusBadge = {
+    new: '<span class="badge badge-new">🟠 جديد</span>',
+    contacted: '<span class="badge badge-contacted">🔵 تم الاتصال</span>',
+    done: '<span class="badge badge-done">🟢 مكتمل</span>'
+};
+
+// ===== FORMAT DATE =====
+function formatDate(ts) {
+    if (!ts) return '—';
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    return d.toLocaleDateString('ar-TN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function isToday(ts) {
+    if (!ts) return false;
+    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    const now = new Date();
+    return d.toDateString() === now.toDateString();
+}
+
+// ===== LOAD DATA =====
+async function loadConsultations() {
+    document.getElementById('consultBody').innerHTML = `
+        <tr><td colspan="8">
+            <div class="loading-state">
+                <div class="loading-spinner-sm"></div>
+                <h3>جاري تحميل الاستشارات...</h3>
+            </div>
+        </td></tr>`;
+    document.getElementById('tableCount').textContent = 'جاري التحميل...';
+
+    try {
+        const snap = await db.collection('consultations')
+            .orderBy('createdAt', 'desc')
+            .limit(200)
+            .get();
+
+        allConsultations = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        // Stats
+        const total = allConsultations.length;
+        const today = allConsultations.filter(c => isToday(c.createdAt)).length;
+        const newCount = allConsultations.filter(c => c.status === 'new' || !c.status).length;
+
+        document.getElementById('statTotal').textContent = total;
+        document.getElementById('statToday').textContent = today;
+        document.getElementById('statNew').textContent = newCount;
+
+        applyFilters();
+        console.log(`✅ Loaded ${total} consultations`);
+    } catch (err) {
+        console.error('❌ Error loading consultations:', err);
+        document.getElementById('consultBody').innerHTML = `
+            <tr><td colspan="8">
+                <div class="empty-state">
+                    <div class="icon">⚠️</div>
+                    <h3>حدث خطأ في التحميل</h3>
+                    <p>${err.message}</p>
+                </div>
+            </td></tr>`;
+    }
+}
+
+// ===== APPLY FILTERS =====
+function applyFilters() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const crop = document.getElementById('cropFilter').value;
+    const region = document.getElementById('regionFilter').value;
+
+    let filtered = allConsultations.filter(c => {
+        const matchSearch = !search ||
+            (c.name || '').toLowerCase().includes(search) ||
+            (c.phone || '').includes(search);
+        const matchCrop = !crop || c.crop === crop;
+        const matchRegion = !region || c.region === region;
+        return matchSearch && matchCrop && matchRegion;
+    });
+
+    renderTable(filtered);
+}
+
+function clearFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('cropFilter').value = '';
+    document.getElementById('regionFilter').value = '';
+    applyFilters();
+}
+
+// ===== RENDER TABLE =====
+function renderTable(data) {
+    document.getElementById('tableCount').textContent = `${data.length} استشارة`;
+
+    if (data.length === 0) {
+        document.getElementById('consultBody').innerHTML = `
+            <tr><td colspan="8">
+                <div class="empty-state">
+                    <div class="icon">🌾</div>
+                    <h3>لا توجد استشارات</h3>
+                    <p>لم يتم العثور على نتائج مطابقة للبحث</p>
+                </div>
+            </td></tr>`;
+        return;
+    }
+
+    const html = data.map(c => `
+        <tr>
+            <td style="font-size:12px;color:var(--text-light)">${formatDate(c.createdAt)}</td>
+            <td><strong>${c.name || '—'}</strong></td>
+            <td dir="ltr" style="text-align:right">${c.phone || '—'}</td>
+            <td>${c.cropName || c.crop || '—'}</td>
+            <td>${c.region || '—'}</td>
+            <td>${areaMap[c.area] || c.area || '—'}</td>
+            <td>${statusBadge[c.status] || statusBadge.new}</td>
+            <td>
+                <div style="display:flex;gap:6px">
+                    <button class="action-btn action-btn-view" onclick="openDetail('${c.id}')">
+                        <i class="fas fa-eye"></i> عرض
+                    </button>
+                    <a class="action-btn action-btn-call" href="tel:${c.phone}">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+
+    document.getElementById('consultBody').innerHTML = html;
+}
+
+// ===== DETAIL MODAL =====
+function openDetail(docId) {
+    const c = allConsultations.find(x => x.id === docId);
+    if (!c) return;
+    currentDocId = docId;
+
+    document.getElementById('modalDate').textContent = formatDate(c.createdAt);
+    document.getElementById('callLink').href = `tel:${c.phone}`;
+    document.getElementById('statusSelect').value = c.status || 'new';
+
+    document.getElementById('detailGrid').innerHTML = `
+        <div class="detail-item"><div class="detail-label">الاسم</div><div class="detail-value">${c.name || '—'}</div></div>
+        <div class="detail-item"><div class="detail-label">الهاتف</div><div class="detail-value" dir="ltr">${c.phone || '—'}</div></div>
+        <div class="detail-item"><div class="detail-label">المنطقة</div><div class="detail-value">${c.region || '—'}</div></div>
+        <div class="detail-item"><div class="detail-label">المحصول</div><div class="detail-value">${c.cropName || c.crop || '—'}</div></div>
+        <div class="detail-item"><div class="detail-label">المساحة</div><div class="detail-value">${areaMap[c.area] || c.area || '—'}</div></div>
+        <div class="detail-item"><div class="detail-label">نظام الري</div><div class="detail-value">${waterMap[c.water] || c.water || '—'}</div></div>
+        <div class="detail-item"><div class="detail-label">نوع التربة</div><div class="detail-value">${soilMap[c.soil] || c.soil || '—'}</div></div>
+        <div class="detail-item"><div class="detail-label">الملوحة</div><div class="detail-value">${salinityMap[c.salinity] || c.salinity || '—'}</div></div>
+        <div class="detail-item"><div class="detail-label">المرحلة</div><div class="detail-value">${c.periodName || c.period || '—'}</div></div>
+        <div class="detail-item"><div class="detail-label">الحالة</div><div class="detail-value">${statusBadge[c.status] || statusBadge.new}</div></div>
+    `;
+
+    document.getElementById('detailModal').classList.add('show');
+}
+
+function closeModal() {
+    document.getElementById('detailModal').classList.remove('show');
+    currentDocId = null;
+}
+
+document.getElementById('detailModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// ===== UPDATE STATUS =====
+async function updateStatus() {
+    if (!currentDocId) return;
+    const newStatus = document.getElementById('statusSelect').value;
+    try {
+        await db.collection('consultations').doc(currentDocId).update({ status: newStatus });
+        const idx = allConsultations.findIndex(c => c.id === currentDocId);
+        if (idx !== -1) allConsultations[idx].status = newStatus;
+        applyFilters();
+        console.log('✅ Status updated:', newStatus);
+    } catch (err) {
+        console.error('❌ Update failed:', err);
+    }
+}
+
+// ===== INIT =====
+loadConsultations();
+</script>
+</body>
+</html>

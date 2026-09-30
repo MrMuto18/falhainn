@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فلاحين - فحص بيانات المحاصيل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Tajawal',sans-serif; background:#f5f1e8; padding:30px 20px; }
+        .container { max-width:900px; margin:0 auto; }
+        h1 { font-size:28px; font-weight:900; color:#1e6b45; margin-bottom:6px; }
+        p { color:#6c757d; margin-bottom:30px; }
+        .btn { padding:13px 30px; border:none; border-radius:12px; font-family:'Tajawal',sans-serif; font-size:16px; font-weight:700; cursor:pointer; background:#2d8659; color:white; margin-bottom:28px; transition:all 0.25s; }
+        .btn:hover { background:#1e6b45; transform:translateY(-2px); }
+        .crop-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+        .crop-card { background:white; border-radius:16px; padding:20px; box-shadow:0 4px 16px rgba(0,0,0,0.07); border-right:4px solid #e0e0e0; transition:all 0.3s; }
+        .crop-card.ok { border-right-color:#2d8659; }
+        .crop-card.partial { border-right-color:#ff9800; }
+        .crop-card.err { border-right-color:#f44336; }
+        .crop-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+        .crop-icon { font-size:28px; }
+        .crop-name { font-size:17px; font-weight:800; color:#2c3e50; }
+        .crop-type { font-size:12px; color:#6c757d; }
+        .period-row { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #f5f5f5; font-size:13px; }
+        .period-row:last-child { border-bottom:none; }
+        .period-name { color:#6c757d; }
+        .badge-ok { background:#e8f5e9; color:#1e6b45; padding:2px 10px; border-radius:50px; font-size:12px; font-weight:700; }
+        .badge-err { background:#ffebee; color:#c62828; padding:2px 10px; border-radius:50px; font-size:12px; font-weight:700; }
+        .summary { background:white; border-radius:16px; padding:24px; margin-bottom:24px; box-shadow:0 4px 16px rgba(0,0,0,0.07); display:flex; gap:30px; }
+        .summary-item { text-align:center; }
+        .summary-num { font-size:36px; font-weight:900; line-height:1; }
+        .summary-label { font-size:13px; color:#6c757d; margin-top:4px; }
+        .loading { text-align:center; padding:50px; color:#6c757d; font-size:18px; }
+        @media(max-width:768px) { .crop-grid { grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔍 فحص بيانات المحاصيل</h1>
+    <p>يتحقق من وجود حلول زراعية لكل محصول في قاعدة بيانات Firebase</p>
+
+    <button class="btn" onclick="checkAll()">🔄 تشغيل الفحص الكامل</button>
+
+    <div class="summary" id="summary" style="display:none">
+        <div class="summary-item">
+            <div class="summary-num" id="sumTotal" style="color:#2d8659">0</div>
+            <div class="summary-label">إجمالي المحاصيل</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-num" id="sumOk" style="color:#2d8659">0</div>
+            <div class="summary-label">مكتملة ✅</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-num" id="sumPartial" style="color:#ff9800">0</div>
+            <div class="summary-label">جزئية ⚠️</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-num" id="sumMissing" style="color:#f44336">0</div>
+            <div class="summary-label">غير موجودة ❌</div>
+        </div>
+    </div>
+
+    <div class="crop-grid" id="cropGrid">
+        <div class="loading">اضغط على "تشغيل الفحص الكامل" للبدء</div>
+    </div>
+</div>
+
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyC-z9igQOo7PbKiTzhi2fIRrHHuUXhN6AU",
+    authDomain: "fla7in.firebaseapp.com",
+    projectId: "fla7in",
+    storageBucket: "fla7in.firebasestorage.app",
+    messagingSenderId: "463607450723",
+    appId: "1:463607450723:web:04d95f04873d15634bfc56"
+};
+
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const crops = [
+    { id:'olive', name:'زيتون', icon:'🫒', type:'tree', periods:['dormancy','flowering','fruit-set','ripening'], periodNames:['سبات','تزهير','عقد','نضج'] },
+    { id:'almond', name:'لوز', icon:'🌰', type:'tree', periods:['dormancy','flowering','fruit-set','ripening'], periodNames:['سبات','تزهير','عقد','نضج'] },
+    { id:'grape', name:'عنب', icon:'🍇', type:'tree', periods:['dormancy','flowering','fruit-set','ripening'], periodNames:['سبات','تزهير','عقد','نضج'] },
+    { id:'citrus', name:'قوارص', icon:'🍊', type:'tree', periods:['dormancy','flowering','fruit-set','ripening'], periodNames:['سبات','تزهير','عقد','نضج'] },
+    { id:'tomato', name:'طماطم', icon:'🍅', type:'vegetable', periods:['short','medium','long','harvest'], periodNames:['15-45 يوم','45-60 يوم','60-90 يوم','90+ يوم'] },
+    { id:'pepper', name:'فلفل', icon:'🌶️', type:'vegetable', periods:['short','medium','long','harvest'], periodNames:['15-45 يوم','45-60 يوم','60-90 يوم','90+ يوم'] },
+    { id:'potato', name:'بطاطا', icon:'🥔', type:'vegetable', periods:['short','medium','long','harvest'], periodNames:['15-45 يوم','45-60 يوم','60-90 يوم','90+ يوم'] },
+    { id:'watermelon', name:'بطيخ', icon:'🍈', type:'vegetable', periods:['short','medium','long','harvest'], periodNames:['15-45 يوم','45-60 يوم','60-90 يوم','90+ يوم'] },
+    { id:'melon', name:'دلاع', icon:'🍉', type:'vegetable', periods:['short','medium','long','harvest'], periodNames:['15-45 يوم','45-60 يوم','60-90 يوم','90+ يوم'] },
+    { id:'strawberry', name:'فراولة', icon:'🍓', type:'vegetable', periods:['short','medium','long','harvest'], periodNames:['15-45 يوم','45-60 يوم','60-90 يوم','90+ يوم'] },
+    { id:'grains', name:'حبوب', icon:'🌾', type:'grains', periods:['short','medium','long'], periodNames:['0-45 يوم','45-90 يوم','90-120 يوم'] },
+    { id:'fennel', name:'بسباس', icon:'🌿', type:'fennel', periods:['short','medium','long'], periodNames:['0-30 يوم','30-60 يوم','60-90 يوم'] },
+];
+
+async function checkCrop(crop) {
+    const results = [];
+    for (let i = 0; i < crop.periods.length; i++) {
+        const p = crop.periods[i];
+        try {
+            let q = db.collection('solutions').where('crop','==',crop.id).where('active','==',true);
+            if (crop.type === 'tree') q = q.where('treeStage','==',p);
+            else q = q.where('period','==',p);
+            const snap = await q.get();
+            results.push({ period: crop.periodNames[i], found: snap.size > 0, count: snap.size });
+        } catch(e) {
+            results.push({ period: crop.periodNames[i], found: false, count: 0 });
+        }
+    }
+    return results;
+}
+
+async function checkAll() {
+    document.getElementById('cropGrid').innerHTML = '<div class="loading">🔍 جاري الفحص... قد يستغرق هذا بضع ثوانٍ</div>';
+    document.getElementById('summary').style.display = 'none';
+
+    let okCount = 0, partialCount = 0, missingCount = 0;
+    const cards = [];
+
+    for (const crop of crops) {
+        const results = await checkCrop(crop);
+        const found = results.filter(r => r.found).length;
+        const total = results.length;
+
+        let cardClass = 'err';
+        if (found === total) { cardClass = 'ok'; okCount++; }
+        else if (found > 0) { cardClass = 'partial'; partialCount++; }
+        else { missingCount++; }
+
+        const periodsHtml = results.map(r => `
+            <div class="period-row">
+                <span class="period-name">${r.period}</span>
+                ${r.found
+                    ? `<span class="badge-ok">✅ موجود (${r.count})</span>`
+                    : `<span class="badge-err">❌ مفقود</span>`}
+            </div>
+        `).join('');
+
+        cards.push(`
+            <div class="crop-card ${cardClass}">
+                <div class="crop-header">
+                    <div class="crop-icon">${crop.icon}</div>
+                    <div>
+                        <div class="crop-name">${crop.name}</div>
+                        <div class="crop-type">${found}/${total} فترة موجودة</div>
+                    </div>
+                </div>
+                ${periodsHtml}
+            </div>
+        `);
+    }
+
+    document.getElementById('cropGrid').innerHTML = cards.join('');
+    document.getElementById('sumTotal').textContent = crops.length;
+    document.getElementById('sumOk').textContent = okCount;
+    document.getElementById('sumPartial').textContent = partialCount;
+    document.getElementById('sumMissing').textContent = missingCount;
+    document.getElementById('summary').style.display = 'flex';
+}
+</script>
+</body>
+</html>

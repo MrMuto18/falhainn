@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كاشف أمراض النباتات - فلاحين</title>
+    <meta name="description" content="اكتشف أمراض نباتاتك بالذكاء الاصطناعي - منصة فلاحين">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #2d8659;
+            --primary-light: #4caf50;
+            --primary-dark: #1e6b45;
+            --primary-ultra: #155c38;
+            --beige: #f5f1e8;
+            --beige-dark: #ede8d8;
+            --text: #2c3e50;
+            --text-light: #6c757d;
+            --white: #ffffff;
+            --shadow: 0 8px 32px rgba(45, 134, 89, 0.15);
+            --shadow-lg: 0 20px 60px rgba(45, 134, 89, 0.2);
+            --orange: #ef6c00;
+            --orange-light: #ff9800;
+            --red: #c62828;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--beige);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100dvh;
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 0 40px;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo img { height: 60px; width: auto; }
+
+        .nav-logo-text {
+            font-size: 24px; font-weight: 900;
+            color: var(--primary-dark);
+        }
+
+        .nav-links {
+            display: flex; align-items: center;
+            gap: 8px; list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none; color: var(--text);
+            font-weight: 500; font-size: 15px;
+            padding: 8px 18px; border-radius: 10px;
+            transition: all 0.25s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--primary); color: white;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+            color: white !important; font-weight: 700 !important;
+            box-shadow: 0 4px 15px rgba(45,134,89,0.35);
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 0 16px; }
+            .nav-links { display: none; }
+        }
+
+        /* ===== PAGE BODY ===== */
+        .page-wrapper {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 96px 16px 60px;
+            min-height: 100dvh;
+        }
+
+        /* ===== HEADER ===== */
+        .scanner-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .scanner-header-icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2.2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .scanner-title {
+            font-size: 1.85rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .scanner-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* ===== CAPTURE AREA ===== */
+        .capture-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            border: 3px dashed #a5d6a7;
+            border-radius: 24px;
+            padding: 52px 24px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .capture-label:hover {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.9);
+            transform: scale(1.01);
+            box-shadow: var(--shadow);
+        }
+
+        .capture-icon { font-size: 58px; }
+
+        .capture-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .capture-hint {
+            font-size: 0.83rem;
+            color: var(--text-light);
+            max-width: 260px;
+            line-height: 1.5;
+        }
+
+        #cameraInput { display: none; }
+
+        /* ===== PREVIEW ===== */
+        .preview-box {
+            border-radius: 22px;
+            overflow: hidden;
+            background: white;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 16px;
+        }
+
+        .preview-box img {
+            width: 100%; display: block;
+            max-height: 380px; object-fit: cover;
+        }
+
+        .preview-actions {
+            display: flex; gap: 12px; padding: 14px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            flex: 1;
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #43a047, var(--primary-dark));
+            color: white;
+            box-shadow: 0 6px 20px rgba(46,125,50,0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(46,125,50,0.45);
+        }
+
+        .btn-secondary {
+            background: rgba(45,134,89,0.1);
+            color: var(--primary-dark);
+        }
+
+        .btn-secondary:hover { background: rgba(45,134,89,0.18); }
+
+        .btn:disabled {
+            opacity: 0.6; cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ===== LOADING ===== */
+        .loading-box {
+            text-align: center;
+            padding: 44px 20px;
+            background: white;
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            margin-top: 16px;
+        }
+
+        .spinner {
+            width: 52px; height: 52px;
+            border: 5px solid #c8e6c9;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text {
+            font-weight: 700; font-size: 1.05rem;
+            color: var(--primary-dark); margin-bottom: 4px;
+        }
+
+        .loading-hint { font-size: 0.83rem; color: var(--text-light); }
+
+        /* ===== CARDS ===== */
+        .result-card {
+            background: white;
+            border-radius: 22px;
+            padding: 26px 22px;
+            margin-top: 18px;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-healthy  { border-top: 5px solid #43a047; text-align: center; }
+        .card-disease  { border-top: 5px solid var(--orange); }
+        .card-error    { border-top: 5px solid var(--red); text-align: center; }
+
+        .card-big-icon { font-size: 48px; margin-bottom: 6px; }
+
+        .card-plant-name {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .badge-healthy { background: #e8f5e9; color: #2e7d32; }
+        .badge-disease { background: #fff3e0; color: var(--orange); }
+        .badge-error   { background: #ffebee; color: var(--red); }
+
+        /* Disease result sections */
+        .result-header {
+            display: flex; align-items: center;
+            gap: 12px; margin-bottom: 18px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eef2ea;
+        }
+
+        .result-header .card-big-icon { font-size: 36px; margin: 0; }
+
+        .section-block {
+            margin-bottom: 18px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f4f7f2;
+        }
+
+        .section-block:last-of-type { border-bottom: none; }
+
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #7c9473;
+            margin-bottom: 8px;
+        }
+
+        .disease-name {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--orange);
+            margin-bottom: 8px;
+        }
+
+        /* Probability bar */
+        .prob-row {
+            display: flex; align-items: center;
+            gap: 10px; margin-top: 4px;
+        }
+
+        .prob-bar {
+            flex: 1; height: 9px;
+            background: #f0f0f0;
+            border-radius: 6px; overflow: hidden;
+        }
+
+        .prob-fill {
+            height: 100%; border-radius: 6px;
+            background: linear-gradient(90deg, var(--orange-light), var(--orange));
+            transition: width 0.8s ease-out;
+        }
+
+        .prob-text {
+            font-size: 0.8rem; font-weight: 700;
+            color: var(--orange); white-space: nowrap;
+        }
+
+        /* Lists */
+        .section-text {
+            font-size: 0.92rem;
+            color: #455a3e;
+            line-height: 1.7;
+        }
+
+        .symptom-list {
+            list-style: none; padding: 0; margin: 0;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+
+        .symptom-item {
+            font-size: 0.89rem; color: #455a3e;
+            padding: 8px 12px;
+            background: #fff8e1;
+            border-radius: 10px;
+            border-right: 3px solid #ffb74d;
+            line-height: 1.5;
+        }
+
+        .treatment-group { margin-bottom: 12px; }
+
+        .treatment-group h5 {
+            font-size: 0.88rem; font-weight: 700;
+            color: var(--primary-dark); margin-bottom: 6px;
+        }
+
+        .treatment-group ul {
+            list-style: none; padding: 0; margin: 0;
+            display: flex; flex-direction: column; gap: 5px;
+        }
+
+        .treatment-group li {
+            font-size: 0.87rem; color: #455a3e;
+            padding: 8px 12px;
+            background: #e8f5e9;
+            border-radius: 10px;
+            line-height: 1.5;
+        }
+
+        /* Similar images */
+        .similar-imgs {
+            display: flex; gap: 8px;
+            overflow-x: auto; padding-bottom: 4px;
+        }
+
+        .similar-imgs img {
+            width: 90px; height: 90px;
+            object-fit: cover; border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        /* Saved badge */
+        .saved-note {
+            font-size: 0.84rem; font-weight: 600;
+            color: var(--primary);
+            text-align: center;
+            margin: 14px 0 8px;
+        }
+
+        /* Scan again */
+        .scan-again-btn {
+            width: 100%; margin-top: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <img src="logo.png" alt="فلاحين">
+            <span class="nav-logo-text">فلاحين</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="consultation.html" class="nav-cta">🚀 استشارة ذكية</a></li>
+            <li><a href="shop.html">المتجر</a></li>
+            <li><a href="plant-scanner.html" class="active">🌿 كاشف الأمراض</a></li>
+        </ul>
+    </nav>
+
+    <!-- PAGE CONTENT -->
+    <div class="page-wrapper">
+
+        <!-- Header -->
+        <div class="scanner-header">
+            <span class="scanner-header-icon">🔬</span>
+            <h1 class="scanner-title">كاشف أمراض النباتات</h1>
+            <p class="scanner-subtitle">صوّر نباتك واكتشف المرض فورياً بالذكاء الاصطناعي</p>
+        </div>
+
+        <!-- Capture Area -->
+        <div id="captureArea">
+            <label class="capture-label" for="cameraInput">
+                <span class="capture-icon">📷</span>
+                <span class="capture-text">اضغط لالتقاط صورة</span>
+                <span class="capture-hint">صوّر الورقة أو الجزء المصاب من النبات</span>
+                <input
+                    type="file"
+                    id="cameraInput"
+                    accept="image/*"
+                    capture="environment"
+                    onchange="handleCapture(event)"
+                />
+            </label>
+        </div>
+
+        <!-- Preview -->
+        <div id="previewArea" style="display:none;">
+            <div class="preview-box">
+                <img id="previewImg" src="" alt="الصورة الملتقطة">
+                <div class="preview-actions">
+                    <button class="btn btn-secondary" onclick="resetScanner()">
+                        <i class="fas fa-redo"></i> إعادة
+                    </button>
+                    <button class="btn btn-primary" id="analyzeBtn" onclick="analyzeImage()">
+                        🔬 تحليل النبات
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingArea" style="display:none;">
+            <div class="loading-box">
+                <div class="spinner"></div>
+                <p class="loading-text" id="loadingText">نحلّلوا النبتة...</p>
+                <p class="loading-hint" id="loadingHint">استنّى شويّة، الذكاء الاصطناعي يخدم 🤖</p>
+            </div>
+        </div>
+
+        <!-- Result -->
+        <div id="resultArea"></div>
+
+    </div>
+
+    <!-- FIREBASE + PLANT.ID LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        // ===== FIREBASE CONFIG =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-z9igQOo7PbKiTzhi2fIRrHHuUXhN6AU",
+            authDomain: "fla7in.firebaseapp.com",
+            projectId: "fla7in",
+            storageBucket: "fla7in.firebasestorage.app",
+            messagingSenderId: "463607450723",
+            appId: "1:463607450723:web:04d95f04873d15634bfc56",
+            measurementId: "G-WXN72JJ5DP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ===== PLANT.ID CONFIG =====
+        const PLANT_ID_API_KEY = "QiKoZnQfRcOggnTDzWKU1dnlf1Np9gEWXysrmA9f438QvzWw48";
+
+        // ===== GEMINI API CONFIG =====
+        const GEMINI_API_KEY = "AIzaSyCKvJcZWj-8BnwE2CUBK6_XM7HppiwI00E";
+        const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+        // ===== STATE =====
+        let currentBase64 = null;
+
+        // Expose functions to global scope (used by inline HTML handlers)
+        window.handleCapture = function(e) {
+            const file = e.target.files?.[0];
+            if (!file) return;
+
+            resetResult();
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                currentBase64 = reader.result.split(',')[1];
+                document.getElementById('previewImg').src = reader.result;
+                document.getElementById('captureArea').style.display = 'none';
+                document.getElementById('previewArea').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.resetScanner = function() {
+            currentBase64 = null;
+            document.getElementById('previewArea').style.display = 'none';
+            document.getElementById('captureArea').style.display = 'block';
+            document.getElementById('loadingArea').style.display = 'none';
+            document.getElementById('resultArea').innerHTML = '';
+            document.getElementById('cameraInput').value = '';
+        };
+
+        function resetResult() {
+            document.getElementById('resultArea').innerHTML = '';
+            document.getElementById('loadingArea').style.display = 'none';
+        }
+
+        window.analyzeImage = async function() {
+            if (!currentBase64) return;
+
+            document.getElementById('previewArea').style.display = 'none';
+            document.getElementById('loadingArea').style.display = 'block';
+            document.getElementById('resultArea').innerHTML = '';
+
+            try {
+                // Step 1: Plant.id analysis
+                document.getElementById('loadingText').textContent = 'نحلّلوا النبتة...';
+                document.getElementById('loadingHint').textContent = 'استنّى شويّة، الذكاء الاصطناعي يخدم 🤖';
+
+                const response = await fetch("https://plant.id/api/v3/health_assessment", {
+                    method: "POST",
+                    headers: {
+                        "Api-Key": PLANT_ID_API_KEY,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        images: [currentBase64],
+                        similar_images: true
+                    })
+                });
+
+                if (!response.ok) {
+                    const text = await response.text();
+                    throw new Error(`مشكلة في التحليل (${response.status}): ${text}`);
+                }
+
+                const data = await response.json();
+
+                // Step 2: Translate with Gemini to Tunisian dialect
+                document.getElementById('loadingText').textContent = 'نترجم النتيجة بالدارجة...';
+                document.getElementById('loadingHint').textContent = 'يكمّل مع شويّة صبر 🌿';
+
+                const parsed = parseResult(data);
+                const translated = await translateWithGemini(parsed);
+
+                document.getElementById('loadingArea').style.display = 'none';
+                renderResult(translated);
+
+                // Save to Firestore
+                await addDoc(collection(db, "scans"), {
+                    plantName: translated.plantName,
+                    disease: translated.isHealthy ? "نبتة سليمة" : (translated.disease || "موش معروف"),
+                    isHealthy: translated.isHealthy,
+                    probability: translated.probability ?? null,
+                    date: Timestamp.now()
+                });
+
+            } catch (err) {
+                console.error("Analysis error:", err);
+                document.getElementById('loadingArea').style.display = 'none';
+                renderError(err.message);
+            }
+        };
+
+        // ===== PARSE PLANT.ID RESPONSE =====
+        function parseResult(data) {
+            const isHealthy = data.result?.is_healthy?.binary ?? false;
+            const plantName = data.result?.classification?.suggestions?.[0]?.name ?? "unknown plant";
+
+            if (isHealthy) {
+                return { isHealthy: true, plantName, disease: null, symptoms: [], treatment: null, similarImages: [] };
+            }
+
+            const top = data.result?.disease?.suggestions?.[0];
+            if (!top) {
+                return { isHealthy: false, plantName, disease: "unknown", symptoms: [], treatment: null, similarImages: [] };
+            }
+
+            const details = top.details ?? {};
+            return {
+                isHealthy: false,
+                plantName,
+                disease: top.name ?? "unknown disease",
+                probability: top.probability ?? 0,
+                description: details.description ?? null,
+                symptoms: details.symptoms ?? [],
+                treatment: details.treatment ?? null,
+                similarImages: top.similar_images ?? []
+            };
+        }
+
+        // ===== GEMINI TRANSLATION TO TUNISIAN DIALECT =====
+        async function translateWithGemini(parsed) {
+            if (parsed.isHealthy) {
+                // Still translate plant name
+                const prompt = `أنت خبير فلاحي تونسي. اسم النبتة هذي بالإنجليزي: "${parsed.plantName}". أعطني اسمها بالعربي أو الدارجة التونسية فقط، بدون شرح، كلمة وحدة أو اثنين.`;
+                try {
+                    const name = await callGemini(prompt);
+                    return { ...parsed, plantName: name.trim() || parsed.plantName };
+                } catch { return parsed; }
+            }
+
+            const symptomsText = parsed.symptoms?.length
+                ? parsed.symptoms.map(s => typeof s === 'string' ? s : (s.name ?? '')).join(', ')
+                : 'لا توجد أعراض مذكورة';
+
+            const treatBio  = parsed.treatment?.biological?.join(', ') ?? '';
+            const treatChem = parsed.treatment?.chemical?.join(', ')   ?? '';
+            const treatPrev = parsed.treatment?.prevention?.join(', ') ?? '';
+
+            const prompt = `أنت خبير فلاحي تونسي تحكي بالدارجة التونسية. عندك المعلومات التالية بالإنجليزي عن مرض نبتة. ترجمهم وشرحهم بالدارجة التونسية بطريقة سهلة يفهمها الفلاح التونسي.
+
+اسم النبتة: ${parsed.plantName}
+المرض: ${parsed.disease}
+الوصف: ${parsed.description ?? 'ما فماش وصف'}
+الأعراض: ${symptomsText}
+العلاج الطبيعي: ${treatBio || 'ما فماش'}
+العلاج الكيميائي: ${treatChem || 'ما فماش'}
+الوقاية: ${treatPrev || 'ما فماش'}
+
+أعطني الجواب بهذا الشكل JSON بالضبط (بدون أي كلام زيادة قبلها أو بعدها):
+{
+  "plantName": "اسم النبتة بالدارجة",
+  "disease": "اسم المرض بالدارجة",
+  "description": "وصف مختصر بالدارجة",
+  "symptoms": ["عرض 1", "عرض 2", "عرض 3"],
+  "biological": ["حل طبيعي 1", "حل طبيعي 2"],
+  "chemical": ["حل كيميائي 1", "حل كيميائي 2"],
+  "prevention": ["وقاية 1", "وقاية 2"]
+}`;
+
+            try {
+                const raw = await callGemini(prompt);
+                // Extract JSON from response
+                const jsonMatch = raw.match(/\{[\s\S]*\}/);
+                if (!jsonMatch) throw new Error('no json');
+                const obj = JSON.parse(jsonMatch[0]);
+
+                return {
+                    ...parsed,
+                    plantName:   obj.plantName   || parsed.plantName,
+                    disease:     obj.disease     || parsed.disease,
+                    description: obj.description || null,
+                    symptoms:    obj.symptoms    || [],
+                    treatment: {
+                        biological: obj.biological || [],
+                        chemical:   obj.chemical   || [],
+                        prevention: obj.prevention || []
+                    }
+                };
+            } catch (e) {
+                console.warn('Gemini translation failed, showing raw data:', e);
+                return parsed; // fallback to original if Gemini fails
+            }
+        }
+
+        async function callGemini(prompt) {
+            const res = await fetch(GEMINI_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: { temperature: 0.4, maxOutputTokens: 1024 }
+                })
+            });
+            if (!res.ok) throw new Error('Gemini error ' + res.status);
+            const json = await res.json();
+            return json.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+        }
+
+        // ===== RENDER RESULT =====
+        function renderResult(p) {
+            const area = document.getElementById('resultArea');
+
+            if (p.isHealthy) {
+                area.innerHTML = `
+                    <div class="result-card card-healthy">
+                        <div class="card-big-icon">✅</div>
+                        <h2 class="card-plant-name">${escHtml(p.plantName)}</h2>
+                        <span class="badge badge-healthy">نبتة سليمة 🌿</span>
+                        <p class="section-text">ما لقيناش أي مرض — نبتتك بخير وصحّتها مليحة! 👍</p>
+                        <p class="saved-note">💾 تسجّلت النتيجة في سجلاتك</p>
+                        <button class="btn btn-secondary scan-again-btn" onclick="resetScanner()">🔄 حلّل نبتة أخرى</button>
+                    </div>`;
+                return;
+            }
+
+            const prob = p.probability ? Math.round(p.probability * 100) : null;
+
+            let symptomsHtml = '';
+            if (p.symptoms?.length) {
+                const items = p.symptoms.map(s =>
+                    `<li class="symptom-item">${escHtml(typeof s === 'string' ? s : s.name ?? '')}</li>`
+                ).join('');
+                symptomsHtml = `
+                    <div class="section-block">
+                        <div class="section-label">🩺 الأعراض اللي تلقاهم</div>
+                        <ul class="symptom-list">${items}</ul>
+                    </div>`;
+            }
+
+            let treatmentHtml = '';
+            if (p.treatment) {
+                const groups = [
+                    { key: 'biological', label: '🌿 العلاج الطبيعي' },
+                    { key: 'chemical',   label: '🧪 العلاج بالدواء' },
+                    { key: 'prevention', label: '🛡️ كيفاش توقّي نبتتك' }
+                ];
+                let groupsHtml = groups.map(g => {
+                    const items = p.treatment[g.key];
+                    if (!items?.length) return '';
+                    return `
+                        <div class="treatment-group">
+                            <h5>${g.label}</h5>
+                            <ul>${items.map(t => `<li>${escHtml(t)}</li>`).join('')}</ul>
+                        </div>`;
+                }).join('');
+
+                if (groupsHtml) {
+                    treatmentHtml = `
+                        <div class="section-block">
+                            <div class="section-label">💊 الحلول والعلاج</div>
+                            ${groupsHtml}
+                        </div>`;
+                }
+            }
+
+            let similarHtml = '';
+            if (p.similarImages?.length) {
+                const imgs = p.similarImages.slice(0, 3).map(img =>
+                    `<img src="${escHtml(img.url)}" alt="حالة مشابهة" loading="lazy">`
+                ).join('');
+                similarHtml = `
+                    <div class="section-block">
+                        <div class="section-label">🖼️ حالات شبيهة</div>
+                        <div class="similar-imgs">${imgs}</div>
+                    </div>`;
+            }
+
+            area.innerHTML = `
+                <div class="result-card card-disease">
+                    <div class="result-header">
+                        <span class="card-big-icon">🌱</span>
+                        <div>
+                            <h2 class="card-plant-name">${escHtml(p.plantName)}</h2>
+                            <span class="badge badge-disease">⚠️ نبتتك مريضة</span>
+                        </div>
+                    </div>
+
+                    <div class="section-block">
+                        <div class="section-label">🦠 المرض اللي تلقّيناه</div>
+                        <p class="disease-name">${escHtml(p.disease)}</p>
+                        ${prob !== null ? `
+                        <div class="prob-row">
+                            <div class="prob-bar"><div class="prob-fill" style="width:${prob}%"></div></div>
+                            <span class="prob-text">نسبة التأكّد ${prob}%</span>
+                        </div>` : ''}
+                    </div>
+
+                    ${p.description ? `
+                    <div class="section-block">
+                        <div class="section-label">📋 شنوّة هذا المرض</div>
+                        <p class="section-text">${escHtml(p.description)}</p>
+                    </div>` : ''}
+
+                    ${symptomsHtml}
+                    ${treatmentHtml}
+                    ${similarHtml}
+
+                    <p class="saved-note">💾 تسجّلت النتيجة في سجلاتك</p>
+                    <button class="btn btn-secondary scan-again-btn" onclick="resetScanner()">🔄 حلّل نبتة أخرى</button>
+                </div>`;
+        }
+
+        function renderError(msg) {
+            document.getElementById('resultArea').innerHTML = `
+                <div class="result-card card-error">
+                    <div class="card-big-icon">⚠️</div>
+                    <h3 class="card-plant-name" style="color:var(--red)">صار خطأ في التحليل</h3>
+                    <span class="badge badge-error">مشكلة</span>
+                    <p class="section-text" style="margin:8px 0 18px">${escHtml(msg)}</p>
+                    <button class="btn btn-secondary scan-again-btn" onclick="resetScanner()">🔄 عاود من أول</button>
+                </div>`;
+        }
+
+        function escHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+    </script>
+
+</body>
+</html>
